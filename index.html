@@ -3,776 +3,1056 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Efecto Floral — Floristeria artesanal · Barcelona</title>
-<meta name="description" content="Petit projecte familiar de decoració floral artesanal per a bodes i esdeveniments. Barcelona.">
+<title>Efecto Floral — Estudi floral · Barcelona</title>
+<meta name="description" content="Petit projecte familiar de composicions florals artesanals per a bodes i esdeveniments. Barcelona.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+/* ── TOKENS ── */
 :root{
-  --bg:#FBF7F4;--bg-alt:#F5ECE8;--paper:#FDFAF8;
-  --ink:#1E1410;--ink-soft:#4A3830;--muted:#8C7060;
-  --rose:#B86B7A;--rose-dark:#7A3D4D;--rose-pale:#EDD5DA;
-  --blush:#E8BEC7;--blush-light:#F6EAED;--sage:#7A8F65;
-  --line:rgba(30,20,16,.13);--line-soft:rgba(30,20,16,.07);
-  --t:.45s cubic-bezier(.32,.72,.32,1);
-  --max:1240px;--gutter:clamp(1.4rem,4vw,2.5rem);
+  --paper:#F5F0E6;
+  --ink:#1F1C18;
+  --muted:#7A6E65;
+  --olive:#6B7355;
+  --terra:#B57465;
+  --cream:#FFFAF0;
+  --blush:#E8C5C0;
+  --line:rgba(31,28,24,.15);
+  --line-s:rgba(31,28,24,.08);
   --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'Manrope',system-ui,-apple-system,sans-serif;
+  --sans:'Manrope',Inter,Helvetica,sans-serif;
+  --t:.4s cubic-bezier(.32,.72,.32,1);
+  --g:clamp(1.4rem,4.5vw,3.5rem);
+  --max:1340px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:var(--sans);font-weight:400;font-size:1rem;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
-img{display:block;max-width:100%}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:1rem;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;width:100%;object-fit:cover}
 a{color:inherit;text-decoration:none}
 ul{list-style:none}
 button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font:inherit;color:inherit}
 
-/* ─── TYPE ─── */
-h1,h2,h3{font-family:var(--serif);font-weight:300;letter-spacing:.01em;line-height:1.08;color:var(--ink)}
-h1{font-size:clamp(3rem,7.5vw,6rem);font-weight:300;font-style:italic}
-h2{font-size:clamp(2.4rem,4.8vw,4rem);font-weight:300}
-h3{font-size:clamp(1.6rem,2.2vw,2.2rem);font-weight:400;line-height:1.15}
-.label{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-family:var(--sans)}
-p{color:var(--ink-soft);font-weight:300;font-size:1rem}
-
-/* ─── LAYOUT ─── */
-.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
-section{position:relative}
-
-/* ─── NAV ─── */
-.nav{position:sticky;top:0;z-index:50;background:rgba(251,247,244,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:1.1rem var(--gutter);max-width:var(--max);margin:0 auto}
-.brand{display:flex;align-items:center}
-.brand-logo{height:46px;width:auto;max-width:148px;object-fit:contain}
-.nav-links{display:flex;gap:2.4rem;align-items:center}
-.nav-links a{font-size:.88rem;font-weight:400;color:var(--muted);letter-spacing:.03em;padding:.4rem 0;transition:color var(--t)}
-.nav-links a:hover{color:var(--rose)}
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.8rem var(--g);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .5s ease,padding .5s ease,box-shadow .5s ease;
+}
+.nav.is-light{
+  background:var(--paper);
+  padding:1rem var(--g);
+  box-shadow:0 1px 0 var(--line-s);
+}
+.brand-logo{
+  height:40px;width:auto;max-width:130px;object-fit:contain;
+  filter:brightness(0) invert(1);
+  transition:filter .5s ease;
+}
+.nav.is-light .brand-logo{filter:none}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+  font-size:.8rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,250,240,.7);transition:color var(--t);
+}
+.nav.is-light .nav-links a{color:var(--muted)}
+.nav-links a:hover{color:#fff}
+.nav.is-light .nav-links a:hover{color:var(--ink)}
 .nav-right{display:flex;align-items:center;gap:.8rem}
-.lang-switcher{display:flex;align-items:center;gap:.2rem}
-.lang-btn{font-size:.7rem;font-weight:500;letter-spacing:.08em;color:var(--muted);padding:.28rem .42rem;border-radius:3px;transition:color var(--t),background var(--t);background:none;cursor:pointer;font-family:var(--sans)}
-.lang-btn:hover{color:var(--rose)}
-.lang-btn.active{color:var(--rose);background:var(--blush-light)}
-.lang-sep{color:var(--rose-pale);font-size:.65rem;user-select:none}
-.nav-cta{font-family:var(--serif);font-size:1rem;font-weight:400;font-style:italic;color:var(--rose-dark);padding:.55rem 1.2rem;border:1px solid var(--blush);border-radius:999px;transition:background var(--t),color var(--t),border-color var(--t)}
-.nav-cta:hover{background:var(--rose);color:var(--paper);border-color:var(--rose)}
+.lang-switcher{display:flex;align-items:center;gap:.1rem}
+.lang-btn{
+  font-size:.65rem;font-weight:500;letter-spacing:.08em;
+  padding:.25rem .38rem;border-radius:3px;
+  color:rgba(255,250,240,.5);transition:color var(--t),background var(--t);
+}
+.nav.is-light .lang-btn{color:var(--muted)}
+.lang-btn:hover{color:#fff}
+.nav.is-light .lang-btn:hover{color:var(--ink)}
+.lang-btn.active{color:rgba(255,250,240,.92)}
+.nav.is-light .lang-btn.active{color:var(--terra);background:rgba(181,116,101,.1)}
+.lang-sep{color:rgba(255,250,240,.2);font-size:.55rem;user-select:none}
+.nav.is-light .lang-sep{color:var(--line)}
+.nav-cta{
+  font-family:var(--serif);font-size:.92rem;font-style:italic;
+  color:rgba(255,250,240,.8);
+  padding:.45rem 1rem;border:1px solid rgba(255,250,240,.22);border-radius:999px;
+  transition:background var(--t),color var(--t),border-color var(--t);
+}
+.nav.is-light .nav-cta{color:var(--terra);border-color:rgba(181,116,101,.35)}
+.nav-cta:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,250,240,.4)}
+.nav.is-light .nav-cta:hover{background:var(--terra);color:var(--cream);border-color:var(--terra)}
 .nav-toggle{display:none;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px}
-.nav-toggle span{display:block;width:22px;height:1px;background:var(--ink);transition:var(--t)}
+.nav-toggle span{display:block;width:22px;height:1px;background:#fff;transition:var(--t)}
+.nav.is-light .nav-toggle span{background:var(--ink)}
 
-/* ─── HERO ─── */
-.hero{position:relative;height:92vh;min-height:580px;max-height:860px;overflow:hidden}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.88) brightness(.93)}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(20,12,10,.08) 0%,rgba(20,12,10,.48) 100%)}
-.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--gutter) clamp(3.5rem,9vh,7rem);max-width:var(--max);margin:0 auto;color:var(--paper)}
-.hero-eyebrow{font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(237,213,218,.9);margin-bottom:1.2rem;font-family:var(--sans)}
-.hero h1{color:var(--paper);max-width:18ch;margin-bottom:.6rem}
-.hero-lema{font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.35rem);font-style:italic;font-weight:300;color:rgba(253,250,248,.8);margin-bottom:2.8rem;line-height:1.5;max-width:44ch}
-.hero-actions{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.8rem;font-size:.88rem;font-weight:500;border-radius:999px;transition:background var(--t),color var(--t),transform var(--t);font-family:var(--sans);letter-spacing:.02em}
-.btn-primary{background:var(--paper);color:var(--rose-dark)}
-.btn-primary:hover{background:var(--blush-light);transform:translateY(-1px)}
-.btn-primary svg{width:13px;height:13px;transition:transform var(--t)}
-.btn-primary:hover svg{transform:translateX(3px)}
-.btn-ghost{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(253,250,248,.85);border-bottom:1px solid rgba(237,213,218,.4);padding:0 0 3px 0;border-radius:0;font-weight:300}
-.btn-ghost:hover{color:var(--paper);border-color:rgba(253,250,248,.7);background:transparent}
+/* ── HERO ── */
+.hero{
+  min-height:100svh;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  background:var(--ink);
+  color:var(--cream);
+}
+.hero-copy{
+  padding:clamp(120px,14vh,180px) var(--g) clamp(4rem,8vh,7rem);
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero-eyebrow{
+  font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--terra);margin-bottom:2rem;font-family:var(--sans);
+}
+h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(52px,8.5vw,114px);
+  line-height:.88;letter-spacing:-.055em;
+  margin:0 0 2.5rem;max-width:14ch;
+}
+.hero-copy p{
+  max-width:400px;font-size:1.05rem;
+  color:rgba(255,250,240,.68);line-height:1.65;
+  margin-bottom:2.8rem;font-weight:300;
+}
+.hero-actions{display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
+.btn-outline{
+  display:inline-block;padding:.88rem 1.7rem;
+  border:1px solid rgba(255,250,240,.28);border-radius:999px;
+  font-size:.8rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  color:rgba(255,250,240,.85);transition:background var(--t),border-color var(--t),color var(--t);
+}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,250,240,.5)}
+.btn-link-hero{
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  color:rgba(255,250,240,.55);border-bottom:1px solid rgba(255,250,240,.2);
+  padding-bottom:2px;transition:color var(--t),border-color var(--t);
+}
+.btn-link-hero:hover{color:var(--cream);border-color:rgba(255,250,240,.5)}
+.hero-img{
+  background:linear-gradient(rgba(0,0,0,.06),rgba(0,0,0,.18)),
+    url('https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=2000&q=85&auto=format&fit=crop')
+    center/cover no-repeat;
+  min-height:100%;
+}
 
-/* ─── SECCIONS ─── */
-.section{padding:clamp(5rem,10vw,8rem) 0}
-.section-alt{background:var(--bg-alt)}
-.lead{font-family:var(--serif);font-size:1.2rem;font-weight:300;font-style:italic;line-height:1.6;color:var(--ink-soft);max-width:52ch}
+/* ── MARQUEE ── */
+.marquee-wrap{overflow:hidden;background:var(--olive);padding:.88rem 0}
+.marquee-track{display:flex;width:max-content;animation:ticker 55s linear infinite;align-items:center}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{
+  white-space:nowrap;padding:0 2.8rem;
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  color:rgba(255,250,240,.78);letter-spacing:.03em;
+}
+.marquee-dot{color:rgba(255,250,240,.3);font-size:.7rem;flex-shrink:0}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* ─── LEMA BANNER ─── */
-.lema-banner{background:var(--blush-light);border-top:1px solid var(--rose-pale);border-bottom:1px solid var(--rose-pale);padding:2.2rem var(--gutter);text-align:center}
-.lema-banner p{font-family:var(--serif);font-size:clamp(1.4rem,2.5vw,2rem);font-style:italic;font-weight:300;color:var(--rose-dark);letter-spacing:.01em;line-height:1.3}
-.lema-banner span{font-style:normal;font-weight:400;color:var(--blush);margin:0 .6rem;font-size:.9em}
+/* ── MANIFESTO ── */
+.manifesto{
+  padding:clamp(5rem,10vw,8rem) var(--g);
+  display:grid;grid-template-columns:.65fr 1.35fr;
+  gap:clamp(3rem,6vw,7rem);
+  align-items:start;
+  border-bottom:1px solid var(--line);
+  max-width:var(--max);margin:0 auto;
+}
+.manifesto h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,5.5vw,78px);
+  line-height:.92;letter-spacing:-.04em;margin:0;
+}
+.manifesto-body{
+  font-family:var(--serif);
+  font-size:clamp(22px,2.8vw,38px);
+  line-height:1.1;font-weight:300;
+  padding-top:.4em;
+}
+.manifesto-body em{color:var(--muted);font-style:normal}
 
-/* ─── HISTORIA ─── */
-.historia{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,7vw,6rem);align-items:center}
-.historia-text > * + *{margin-top:1.3rem}
-.historia-text .label{margin-bottom:1.4rem;display:block}
-.historia-text h2{margin-bottom:1rem}
-.historia-text p{font-size:1rem;line-height:1.8;color:var(--ink-soft);max-width:46ch;font-weight:300}
-.historia-text p + p{margin-top:.9rem}
-.historia-sig{margin-top:2rem;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--rose)}
-.historia-img-wrap{position:relative}
-.historia-img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.92)}
-.historia-img-caption{position:absolute;bottom:-1.4rem;left:1.5rem;font-family:var(--serif);font-style:italic;font-size:.88rem;color:var(--muted)}
+/* ── JOURNAL / HISTORIA ── */
+.journal{
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+}
+.journal-img{height:clamp(460px,60vh,780px);overflow:hidden}
+.journal-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+.journal-copy{
+  padding:clamp(4rem,8vw,7rem) clamp(2.5rem,5vw,5.5rem) clamp(4rem,8vw,7rem) clamp(2rem,4vw,4rem);
+  background:var(--cream);
+}
+.eyebrow{
+  font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--terra);margin-bottom:2rem;display:block;
+}
+.journal-copy h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,4.5vw,68px);
+  line-height:.92;letter-spacing:-.04em;margin:0 0 2rem;
+}
+.journal-copy p{
+  font-size:1rem;color:var(--muted);line-height:1.8;max-width:42ch;margin-bottom:.9rem;font-weight:300;
+}
+.journal-sig{
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  color:var(--terra);margin-top:1.5rem;display:block;
+}
 
-/* ─── VALORS ─── */
-.valors{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(2rem,4vw,3.5rem);margin-top:4rem}
-.valor{padding:2rem 0;border-top:1px solid var(--rose-pale)}
-.valor-num{font-family:var(--serif);font-size:3rem;font-weight:300;color:var(--blush);line-height:1;margin-bottom:1rem;display:block}
-.valor h3{font-weight:400;margin-bottom:.8rem;font-size:1.5rem;font-family:var(--serif)}
-.valor p{font-size:.95rem;color:var(--muted);line-height:1.7;max-width:30ch;font-weight:300}
-.section-head{max-width:680px;margin-bottom:1rem}
-.section-head .label{margin-bottom:1.2rem;display:block}
-.section-head h2{margin-bottom:1rem}
-.section-head p{color:var(--muted);font-size:1rem;line-height:1.7;max-width:50ch;font-weight:300}
-.section-head .lead{margin-top:1rem}
+/* ── SECTION WRAPPER ── */
+.section{padding:clamp(5rem,10vw,8rem) var(--g)}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-top{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  gap:2rem;margin-bottom:4.5rem;
+}
+.section-top h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(42px,6vw,90px);
+  line-height:.9;letter-spacing:-.045em;margin:0;
+}
+.section-top p{
+  max-width:300px;color:var(--muted);font-size:.95rem;
+  line-height:1.65;font-weight:300;flex-shrink:0;
+  font-family:var(--serif);font-style:italic;
+}
 
-/* ─── SERVEIS ─── */
-.serveis{display:flex;flex-direction:column;gap:clamp(3rem,6vw,5rem);margin-top:4.5rem}
-.servei{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,5vw,5rem);align-items:center}
-.servei:nth-child(even) .servei-img{order:2}
-.servei-img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(.9)}
-.servei-text .label{margin-bottom:1rem;display:block}
-.servei-text h3{margin-bottom:.9rem}
-.servei-text > p{font-size:1rem;color:var(--ink-soft);line-height:1.75;margin-bottom:1.5rem;max-width:44ch;font-weight:300}
-.servei-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem}
-.servei-list li{font-size:.93rem;color:var(--ink-soft);padding-left:1.3rem;position:relative;font-weight:300;line-height:1.5}
-.servei-list li::before{content:"";position:absolute;left:0;top:.65rem;width:8px;height:1px;background:var(--rose);opacity:.6}
-.servei-text a.btn-text{font-family:var(--serif);font-size:1.05rem;font-weight:400;font-style:italic;color:var(--rose-dark);border-bottom:1px solid var(--blush);padding-bottom:2px;transition:color var(--t),border-color var(--t)}
-.servei-text a.btn-text:hover{color:var(--rose);border-color:var(--rose)}
+/* ── VALORS CARDS ── */
+.cards-3{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);
+}
+.card-v{
+  padding:2.2rem 1.8rem 2.8rem 0;
+  border-right:1px solid var(--line);
+}
+.card-v:last-child{border-right:none}
+.card-v:not(:first-child){padding-left:1.8rem}
+.card-num{
+  font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--terra);margin-bottom:.9rem;display:block;
+}
+.card-v h3{
+  font-family:var(--serif);font-size:clamp(1.6rem,2.2vw,2.4rem);
+  font-weight:400;line-height:.97;letter-spacing:-.025em;
+  margin:0 0 1rem;
+}
+.card-v p{font-size:.93rem;color:var(--muted);line-height:1.72;max-width:28ch}
 
-/* ─── GALERIA ─── */
-.galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.6rem,1.2vw,1rem);margin-top:3.5rem}
-.galeria img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.88);transition:filter var(--t),transform var(--t)}
-.galeria a{display:block;overflow:hidden;background:var(--bg-alt)}
-.galeria a:hover img{filter:saturate(1);transform:scale(1.03)}
-.galeria a:nth-child(2) img,.galeria a:nth-child(5) img,.galeria a:nth-child(8) img{aspect-ratio:1}
+/* ── SERVEIS CARDS ── */
+.section-alt{background:var(--cream)}
+.cards-s{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);
+}
+.card-s{
+  padding:2.5rem 2rem 3rem 0;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;
+  gap:1.2rem;
+}
+.card-s:last-child{border-right:none}
+.card-s:not(:first-child){padding-left:2rem}
+.card-s h3{
+  font-family:var(--serif);font-size:clamp(1.7rem,2.4vw,2.6rem);
+  font-weight:400;line-height:.95;letter-spacing:-.03em;margin:0;
+}
+.card-s>p{font-size:.93rem;color:var(--muted);line-height:1.72;max-width:34ch;flex-grow:1}
+.card-s-img{height:250px;overflow:hidden;margin-bottom:1.5rem;background:var(--muted)}
+.card-s-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.82);transition:filter .6s var(--t),transform .6s var(--t)}
+.card-s:hover .card-s-img img{filter:saturate(1);transform:scale(1.04)}
+.card-list{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.5rem}
+.card-list li{
+  font-size:.86rem;color:var(--muted);
+  padding-left:1.2rem;position:relative;line-height:1.5;
+}
+.card-list li::before{
+  content:'';position:absolute;left:0;top:.62rem;
+  width:6px;height:1px;background:var(--terra);
+}
+.card-s a{
+  font-family:var(--serif);font-style:italic;font-size:.95rem;
+  color:var(--ink);border-bottom:1px solid var(--line);
+  padding-bottom:1px;display:inline-block;margin-top:auto;
+  transition:color var(--t),border-color var(--t);
+}
+.card-s a:hover{color:var(--terra);border-color:var(--terra)}
 
-/* ─── CONTACTE ─── */
-.section-contacte{background:var(--bg-alt)}
-.contacte{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(3rem,6vw,5.5rem);align-items:start}
-.contacte-info h2{margin-bottom:1rem}
-.contacte-info > p{color:var(--muted);font-size:1rem;line-height:1.7;max-width:36ch;margin-bottom:2.5rem;font-weight:300}
-.info-list{display:flex;flex-direction:column;gap:1.8rem;padding-top:2rem;border-top:1px solid var(--rose-pale)}
-.info-item .label{display:block;margin-bottom:.35rem}
-.info-item .val{font-size:1rem;color:var(--ink);line-height:1.5;font-weight:400}
-.info-item .val a{border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color var(--t),color var(--t)}
-.info-item .val a:hover{color:var(--rose);border-color:var(--rose)}
-.info-item .sub{display:block;color:var(--muted);font-size:.86rem;margin-top:.3rem;font-weight:300}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem 1.5rem}
-.field{display:flex;flex-direction:column;gap:.5rem}
-.field-full{grid-column:1 / -1}
-.field label{font-size:.74rem;font-weight:500;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
-.field input,.field select,.field textarea{background:transparent;border:0;border-bottom:1px solid var(--line);padding:.75rem 0;font-size:1rem;color:var(--ink);font-family:var(--sans);outline:none;transition:border-color var(--t);width:100%}
-.field textarea{resize:vertical;min-height:110px;line-height:1.6}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--rose)}
-.field input::placeholder,.field textarea::placeholder{color:#C0A898;font-weight:300}
-.field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:1.5rem;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%238C7060' stroke-width='1.2' d='M.8.8L5 5l4.2-4.2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .2rem center}
-.form-foot{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:.5rem}
-.consent{font-size:.78rem;color:var(--muted);max-width:32ch;line-height:1.55;font-weight:300}
+/* ── CITA / QUOTE ── */
+.quote-block{
+  background:var(--olive);color:var(--cream);
+  padding:clamp(5rem,10vw,9rem) var(--g);
+}
+.quote-block p{
+  font-family:var(--serif);
+  font-size:clamp(40px,7vw,104px);
+  line-height:.9;letter-spacing:-.05em;
+  max-width:1100px;font-weight:400;
+}
+
+/* ── GALERIA EDITORIAL ── */
+.photo-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1.2fr;
+  grid-auto-rows:230px;
+  gap:8px;margin-top:3.5rem;
+}
+.pg{overflow:hidden;background:var(--muted)}
+.pg img{width:100%;height:100%;object-fit:cover;filter:saturate(.82);transition:filter .7s var(--t),transform .7s var(--t)}
+.pg:hover img{filter:saturate(1.05);transform:scale(1.05)}
+.pg:nth-child(1){grid-row:span 2}
+.pg:nth-child(4){grid-row:span 2}
+.pg:nth-child(7){grid-row:span 2}
+
+/* ── CONTACTE ── */
+.contacte-wrap{
+  display:grid;grid-template-columns:1fr 1.35fr;
+}
+.contacte-left{
+  background:var(--ink);color:var(--cream);
+  padding:clamp(4rem,8vw,7rem) clamp(2.5rem,4vw,4rem);
+  display:flex;flex-direction:column;justify-content:space-between;gap:3rem;
+}
+.contacte-left .eyebrow{color:rgba(255,250,240,.38);margin-bottom:1.3rem}
+.contacte-left h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(2.2rem,4vw,3.8rem);
+  line-height:.93;letter-spacing:-.04em;
+  color:var(--cream);margin-bottom:1.1rem;
+}
+.contacte-left>div>p{
+  color:rgba(255,250,240,.55);font-size:1rem;
+  line-height:1.75;max-width:32ch;font-weight:300;
+}
+.info-list{display:flex;flex-direction:column;gap:1.5rem}
+.info-item .label-s{
+  font-size:.64rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,250,240,.3);display:block;margin-bottom:.3rem;
+}
+.info-item .val{font-size:.94rem;color:rgba(255,250,240,.72);line-height:1.5}
+.info-item .val a{
+  border-bottom:1px solid rgba(255,250,240,.16);padding-bottom:1px;
+  transition:color var(--t),border-color var(--t);
+}
+.info-item .val a:hover{color:var(--blush);border-color:var(--blush)}
+.info-item .sub{display:block;color:rgba(255,250,240,.35);font-size:.8rem;margin-top:.2rem}
+.contacte-right{
+  padding:clamp(4rem,7vw,6rem) clamp(2rem,5vw,4.5rem);
+  background:var(--paper);display:flex;align-items:center;
+}
+/* Form */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem 1.5rem;width:100%}
+.field{display:flex;flex-direction:column;gap:.45rem}
+.field-full{grid-column:1/-1}
+.field label{
+  font-size:.67rem;font-weight:500;color:var(--muted);
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.field input,.field select,.field textarea{
+  background:transparent;border:0;border-bottom:1px solid var(--line);
+  padding:.7rem 0;font-size:1rem;color:var(--ink);
+  outline:none;transition:border-color var(--t);width:100%;
+}
+.field textarea{resize:vertical;min-height:100px;line-height:1.6}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--terra)}
+.field input::placeholder,.field textarea::placeholder{color:#C0B5AB;font-weight:300}
+.field select{
+  appearance:none;cursor:pointer;padding-right:1.5rem;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%237A6E65' stroke-width='1.2' d='M.8.8L5 5l4.2-4.2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .2rem center;
+}
+.form-foot{
+  grid-column:1/-1;display:flex;
+  justify-content:space-between;align-items:center;
+  gap:1.5rem;flex-wrap:wrap;margin-top:.5rem;
+}
+.consent{font-size:.74rem;color:var(--muted);max-width:28ch;line-height:1.55}
 .consent a{border-bottom:1px solid var(--line)}
-.btn-submit{background:var(--rose-dark);color:var(--paper);padding:.9rem 1.6rem;border-radius:999px;font-size:.88rem;font-weight:500;display:inline-flex;align-items:center;gap:.6rem;transition:background var(--t),transform var(--t);letter-spacing:.02em}
-.btn-submit:hover{background:var(--rose);transform:translateY(-1px)}
-.btn-submit svg{width:13px;height:13px;transition:transform var(--t)}
+.btn-submit{
+  background:var(--ink);color:var(--cream);
+  padding:.88rem 1.7rem;border-radius:999px;
+  font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:.6rem;
+  transition:background var(--t),transform var(--t);
+}
+.btn-submit:hover{background:var(--terra);transform:translateY(-2px)}
+.btn-submit svg{width:11px;height:11px;transition:transform var(--t)}
 .btn-submit:hover svg{transform:translateX(3px)}
-.form-status{grid-column:1 / -1;display:none;padding:1rem 1.2rem;background:rgba(184,107,122,.1);border-left:2px solid var(--rose);font-size:.92rem;color:var(--ink);font-style:italic;font-family:var(--serif)}
+.form-status{
+  grid-column:1/-1;display:none;padding:.9rem 1.1rem;
+  background:rgba(181,116,101,.1);border-left:2px solid var(--terra);
+  font-size:.92rem;font-style:italic;font-family:var(--serif);
+}
 .form-status.show{display:block}
 
-/* ─── FOOTER ─── */
-.footer{background:var(--rose-dark);color:var(--paper);padding:4rem 0 2rem}
-.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;padding-bottom:3rem;border-bottom:1px solid rgba(253,250,248,.12)}
-.footer-brand .brand-logo{height:56px;max-width:170px;filter:brightness(0) invert(1);opacity:.88;margin-bottom:1.2rem;margin-left:-.3rem}
-.footer-tagline{font-family:var(--serif);font-style:italic;font-size:1rem;color:rgba(253,250,248,.65);max-width:22ch;line-height:1.55;font-weight:300}
-.footer-col h4{font-size:.72rem;font-weight:500;color:rgba(253,250,248,.45);margin-bottom:1.3rem;letter-spacing:.08em;text-transform:uppercase}
-.footer-col ul{display:flex;flex-direction:column;gap:.75rem}
-.footer-col a{color:rgba(253,250,248,.72);font-size:.92rem;transition:color var(--t);font-weight:300}
-.footer-col a:hover{color:var(--paper)}
-.footer-col p{color:rgba(253,250,248,.65);font-size:.9rem;line-height:1.65;font-weight:300}
-.footer-email{display:inline-block;color:var(--paper);font-size:.95rem;border-bottom:1px solid rgba(253,250,248,.22);padding-bottom:1px;margin-bottom:1rem;transition:color var(--t),border-color var(--t);font-style:italic;font-family:var(--serif)}
-.footer-email:hover{color:var(--blush);border-color:var(--blush)}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding-top:2rem;font-size:.8rem;color:rgba(253,250,248,.38);font-weight:300}
-.footer-legal{display:flex;gap:1.5rem}
-.footer-legal a{color:rgba(253,250,248,.38);transition:color var(--t)}
-.footer-legal a:hover{color:var(--paper)}
+/* ── FOOTER ── */
+.footer{
+  padding:4.5rem var(--g) 2.5rem;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;
+  gap:3rem;border-top:1px solid var(--line);
+  max-width:var(--max);margin:0 auto;
+}
+.footer-brand img{
+  height:46px;max-width:145px;margin-bottom:1.2rem;opacity:.7;
+}
+.footer-tagline{
+  font-family:var(--serif);font-style:italic;
+  font-size:1rem;color:var(--muted);line-height:1.55;max-width:24ch;
+}
+.footer-col h4{
+  font-size:.64rem;font-weight:500;color:rgba(31,28,24,.35);
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.1rem;
+}
+.footer-col ul{display:flex;flex-direction:column;gap:.65rem}
+.footer-col a,.footer-col p{
+  font-size:.88rem;color:var(--muted);line-height:1.65;
+  font-weight:300;transition:color var(--t);
+}
+.footer-col a:hover{color:var(--ink)}
+.footer-email{
+  font-family:var(--serif);font-style:italic;
+  color:var(--ink)!important;border-bottom:1px solid var(--line);
+  padding-bottom:1px;display:inline-block;margin-bottom:.8rem;
+}
+.footer-email:hover{color:var(--terra)!important;border-color:var(--terra)}
+.footer-bottom{
+  padding:1.5rem var(--g) 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+  font-size:.72rem;color:rgba(31,28,24,.3);
+  border-top:1px solid var(--line-s);
+  max-width:var(--max);margin:0 auto;
+}
+.footer-legal{display:flex;gap:1.4rem}
+.footer-legal a{color:rgba(31,28,24,.3);transition:color var(--t)}
+.footer-legal a:hover{color:var(--muted)}
 
-/* ─── REVEAL ─── */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .95s var(--t),transform .95s var(--t)}
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s cubic-bezier(.32,.72,.32,1),transform 1s cubic-bezier(.32,.72,.32,1)}
 .reveal.in{opacity:1;transform:translateY(0)}
 
-/* ─── RESPONSIVE ─── */
-@media (max-width:900px){
-  .historia,.contacte{grid-template-columns:1fr;gap:2.5rem}
-  .servei,.servei:nth-child(even){grid-template-columns:1fr}
-  .servei:nth-child(even) .servei-img{order:0}
-  .valors{grid-template-columns:1fr 1fr;gap:1.8rem}
-  .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
-  .galeria{grid-template-columns:repeat(2,1fr)}
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr}
+  .hero-img{display:none}
+  .cards-3,.cards-s{grid-template-columns:1fr 1fr}
+  .card-v:nth-child(2),.card-s:nth-child(2){border-right:none}
+  .card-v:nth-child(3),.card-s:nth-child(3){
+    grid-column:1/-1;border-right:none;border-top:1px solid var(--line);
+    padding:2rem 0 2.5rem;
+  }
+  .photo-grid{display:block}
+  .pg{height:320px;margin-bottom:10px}
+  .pg:last-child{margin-bottom:0}
+  .journal{grid-template-columns:1fr}
+  .journal-img{height:420px}
+  .journal-copy{padding:3rem var(--g)}
+  .manifesto{grid-template-columns:1fr;gap:2rem}
+  .footer{grid-template-columns:1fr 1fr;gap:2rem}
+  .contacte-wrap{grid-template-columns:1fr}
 }
-@media (max-width:640px){
+@media(max-width:640px){
   .nav-links,.nav-cta{display:none}
   .nav-toggle{display:flex}
-  .nav-links.open{display:flex;flex-direction:column;align-items:flex-start;gap:1.2rem;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);padding:1.4rem var(--gutter)}
-  .nav-links.open .nav-cta-mobile{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border:1px solid var(--blush);border-radius:999px;margin-top:.5rem;font-family:var(--serif);font-style:italic;color:var(--rose-dark)}
-  .brand-logo{height:38px;max-width:120px}
-  .hero{height:auto;min-height:auto;padding:0}
-  .hero-img-box{position:relative;height:72svh;min-height:480px}
-  .hero-img{position:absolute}
-  .hero-content{position:relative;padding:2.5rem var(--gutter) 0;color:var(--ink)}
-  .hero h1{color:var(--ink)}
-  .hero-lema{color:var(--ink-soft)}
-  .hero-eyebrow{color:var(--muted)}
-  .hero .btn-ghost{color:var(--muted);border-color:var(--line)}
-  .hero-overlay{display:none}
+  .nav-links.open{
+    display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;
+    position:absolute;top:100%;left:0;right:0;
+    background:var(--paper);border-bottom:1px solid var(--line);
+    padding:1.4rem var(--g);
+  }
+  .nav.is-light .nav-links.open,.nav-links.open{background:var(--paper)}
+  .nav-links.open a{color:var(--muted)!important}
+  .hero-copy{padding:100px var(--g) 3rem}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:1rem}
+  .cards-3,.cards-s{grid-template-columns:1fr}
+  .card-v,.card-v:not(:first-child),.card-s,.card-s:not(:first-child){
+    border-right:none;border-top:1px solid var(--line);
+    padding:1.8rem 0;grid-column:unset;
+  }
+  .section-top{flex-direction:column;align-items:flex-start;gap:1rem}
   .form{grid-template-columns:1fr}
-  .footer-top{grid-template-columns:1fr;gap:1.8rem}
-  .galeria{gap:.5rem}
-  .valors{grid-template-columns:1fr}
-  .historia-img-caption{display:none}
-  .lang-switcher{gap:.1rem}
+  .footer{grid-template-columns:1fr;gap:2rem}
+  .manifesto-body{font-size:clamp(1.3rem,5vw,1.8rem)}
 }
 </style>
 </head>
 <body>
 
+<!-- ─── NAV ─── -->
 <header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#top" class="brand" aria-label="Efecto Floral — inici">
-      <img src="assets/logo efecto.png" alt="Efecto Floral" class="brand-logo">
-    </a>
-    <nav class="nav-links" id="nav-links" aria-label="Principal">
-      <a href="#historia" data-i18n="nav_estudi">L'estudi</a>
-      <a href="#serveis" data-i18n="nav_serveis">Serveis</a>
-      <a href="#galeria" data-i18n="nav_galeria">Galeria</a>
-      <a href="#contacte" data-i18n="nav_contacte">Contacte</a>
-    </nav>
-    <div class="nav-right">
-      <div class="lang-switcher" aria-label="Idioma">
-        <button class="lang-btn active" data-lang="ca">CA</button>
-        <span class="lang-sep">·</span>
-        <button class="lang-btn" data-lang="es">ES</button>
-        <span class="lang-sep">·</span>
-        <button class="lang-btn" data-lang="en">EN</button>
-      </div>
-      <a href="#contacte" class="nav-cta" data-i18n="nav_cta">Sol·licitar pressupost</a>
+  <a href="#top" aria-label="Efecto Floral">
+    <img src="assets/logo efecto.png" alt="Efecto Floral" class="brand-logo">
+  </a>
+  <nav class="nav-links" id="nav-links" aria-label="Principal">
+    <a href="#historia" data-i18n="nav_estudi">L'estudi</a>
+    <a href="#serveis" data-i18n="nav_serveis">Serveis</a>
+    <a href="#galeria" data-i18n="nav_galeria">Galeria</a>
+    <a href="#contacte" data-i18n="nav_contacte">Contacte</a>
+  </nav>
+  <div class="nav-right">
+    <div class="lang-switcher" aria-label="Idioma">
+      <button class="lang-btn active" data-lang="ca">CA</button>
+      <span class="lang-sep">·</span>
+      <button class="lang-btn" data-lang="es">ES</button>
+      <span class="lang-sep">·</span>
+      <button class="lang-btn" data-lang="en">EN</button>
     </div>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="#contacte" class="nav-cta" data-i18n="nav_cta">Sol·licitar pressupost</a>
   </div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="hero">
-    <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=2200&q=85&auto=format&fit=crop" alt="" class="hero-img">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow" data-i18n="hero_eyebrow">Floristeria artesanal · Barcelona</p>
-      <h1 data-i18n="hero_h1">Creem moments únics amb flors.</h1>
-      <p class="hero-lema" data-i18n="hero_lema">Som un petit projecte familiar amb passió per la bellesa natural i el respecte amb l'entorn. Cada flor que cultivem explica una història.</p>
-      <div class="hero-actions">
-        <a href="#contacte" class="btn btn-primary">
-          <span data-i18n="hero_btn1">Parlem del teu projecte</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="#historia" class="btn-ghost" data-i18n="hero_btn2">Conèixer-nos →</a>
-      </div>
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-copy">
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Floristeria artesanal · Barcelona</p>
+    <h1 data-i18n="hero_h1">Creem moments únics amb flors.</h1>
+    <p data-i18n="hero_lema">Som un petit projecte familiar amb passió per la bellesa natural i el respecte amb l'entorn. Cada flor que cultivem explica una història.</p>
+    <div class="hero-actions">
+      <a href="#contacte" class="btn-outline" data-i18n="hero_btn1">Parlem del teu projecte</a>
+      <a href="#historia" class="btn-link-hero" data-i18n="hero_btn2">Conèixer-nos →</a>
     </div>
-  </section>
-
-  <!-- LEMA -->
-  <div class="lema-banner reveal">
-    <p>« <span id="banner-text" data-i18n="banner">Cada flor que cultivem explica una història</span> »<span>✦</span>Efecto Floral</p>
   </div>
+  <div class="hero-img" role="img" aria-label="Composicions florals Efecto Floral"></div>
+</section>
 
-  <!-- HISTORIA -->
-  <section id="historia" class="section">
-    <div class="wrap">
-      <div class="historia">
-        <div class="historia-text reveal">
-          <span class="label" data-i18n="h_label">L'estudi · La nostra història</span>
-          <h2 data-i18n="h_h2">Flors cultivades amb ànima.</h2>
-          <p data-i18n="h_p1">Som un petit projecte familiar nascut de la passió per la bellesa natural. L'Olga, fundadora i florista, porta anys treballant amb flor de temporada i productors locals, convençuda que cada flor carrega una memòria, un paisatge, una intenció.</p>
-          <p data-i18n="h_p2">No tenim grans estocs ni catàlegs tancats. Cada encàrrec comença amb una conversa — volem entendre qui ets i el que vols celebrar — i acaba en un arranjament que sembla que sempre hagi format part d'aquell espai o d'aquell moment.</p>
-          <p data-i18n="h_p3">Treballem calmadament i amb cura, perquè creiem que la pressa i la bellesa no s'avenen gaire.</p>
-          <p class="historia-sig" data-i18n="h_sig">— Olga, fundadora d'Efecto Floral</p>
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Efecto Floral</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Floristeria artesanal</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Cada flor explica una història</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Barcelona</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Bodes · Celebracions · Espais</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Efecto Floral</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Floristeria artesanal</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Cada flor explica una història</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Barcelona</span>
+    <span class="marquee-dot">✦</span>
+    <span class="marquee-item">Bodes · Celebracions · Espais</span>
+    <span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- ─── MANIFESTO ─── -->
+<div class="reveal" style="max-width:var(--max);margin:0 auto">
+  <div class="manifesto">
+    <h2 data-i18n="manifest_h">No fem rams. Creem atmosferes.</h2>
+    <div class="manifesto-body">
+      <span data-i18n="manifest_body">Composicions florals amb mirada editorial: textures, estacions i peces naturals creades per donar presència, calma i caràcter.</span>
+      <em> <span data-i18n="manifest_em">Sense artifici. Sense pressa. Amb intenció.</span></em>
+    </div>
+  </div>
+</div>
+
+<!-- ─── HISTORIA / JOURNAL ─── -->
+<section id="historia" class="journal">
+  <div class="journal-img reveal">
+    <img src="assets/fundadora-atelier.png" alt="Olga, fundadora d'Efecto Floral">
+  </div>
+  <div class="journal-copy reveal">
+    <span class="eyebrow" data-i18n="h_label">L'estudi · La nostra història</span>
+    <h2 data-i18n="h_h2">Flors cultivades amb ànima.</h2>
+    <p data-i18n="h_p1">Som un petit projecte familiar nascut de la passió per la bellesa natural. L'Olga, fundadora i florista, porta anys treballant amb flor de temporada i productors locals, convençuda que cada flor carrega una memòria, un paisatge, una intenció.</p>
+    <p data-i18n="h_p2">No tenim grans estocs ni catàlegs tancats. Cada encàrrec comença amb una conversa — volem entendre qui ets i el que vols celebrar — i acaba en un arranjament que sembla que sempre hagi format part d'aquell espai.</p>
+    <p data-i18n="h_p3">Treballem calmadament i amb cura, perquè creiem que la pressa i la bellesa no s'avenen gaire.</p>
+    <span class="journal-sig" data-i18n="h_sig">— Olga, fundadora d'Efecto Floral</span>
+  </div>
+</section>
+
+<!-- ─── VALORS ─── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-top reveal">
+      <h2 data-i18n="v_h2">Tres principis que ho guien tot.</h2>
+      <p data-i18n="v_lead">Coses en les quals creiem des del primer dia i que no hem deixat mai d'aplicar.</p>
+    </div>
+    <div class="cards-3">
+      <article class="card-v reveal">
+        <span class="card-num">01</span>
+        <h3 data-i18n="v1_h3">Passió genuïna</h3>
+        <p data-i18n="v1_p">Cada arranjament porta una intenció. Treballem amb temps perquè la cura es noti i, sobretot, perquè es recordi.</p>
+      </article>
+      <article class="card-v reveal">
+        <span class="card-num">02</span>
+        <h3 data-i18n="v2_h3">Respecte per la natura</h3>
+        <p data-i18n="v2_p">Flor de temporada, productors propers, gestos d'aprofitament. La bellesa surt de la terra — no cal forçar-la.</p>
+      </article>
+      <article class="card-v reveal">
+        <span class="card-num">03</span>
+        <h3 data-i18n="v3_h3">Detall i excel·lència</h3>
+        <p data-i18n="v3_p">En l'escollir, en el muntatge, en el lliurament. Quan està ben fet, no cal explicar-ho: la sensació ja ho diu tot.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVEIS ─── -->
+<section id="serveis" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-top reveal">
+      <h2 data-i18n="s_h2">Per a cada celebració, una flor.</h2>
+      <p data-i18n="s_lead">Sempre comencem amb una conversa. Tu expliques, nosaltres escoltem i proposem.</p>
+    </div>
+    <div class="cards-s">
+      <article class="card-s reveal">
+        <div class="card-s-img">
+          <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=900&q=85&auto=format&fit=crop" alt="">
         </div>
-        <div class="historia-img-wrap reveal">
-          <img src="assets/fundadora-atelier.png" alt="Olga, fundadora d'Efecto Floral" class="historia-img">
-          <span class="historia-img-caption" data-i18n="h_img_caption">Olga a l'atelier de Barcelona</span>
+        <span class="card-num" data-i18n="s1_label">Bodes</span>
+        <h3 data-i18n="s1_h3">El dia que les flors expliquen la vostra història.</h3>
+        <p data-i18n="s1_p">Dissenyem la decoració floral de la cerimònia i l'àpat escoltant-vos. Volem que les flors del vostre dia reflecteixin qui sou — no una tendència.</p>
+        <ul class="card-list">
+          <li data-i18n="s1_li1">Ram de núvia i acompanyaments nupcials</li>
+          <li data-i18n="s1_li2">Decoració d'altar, arc o cerimònia civil</li>
+          <li data-i18n="s1_li3">Centres de taula i ambientació del banquet</li>
+          <li data-i18n="s1_li4">Detalls per a convidats i racons fotogràfics</li>
+        </ul>
+        <a href="#contacte" data-i18n="s1_link">Parlem de la teva boda →</a>
+      </article>
+      <article class="card-s reveal">
+        <div class="card-s-img">
+          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=85&auto=format&fit=crop" alt="">
+        </div>
+        <span class="card-num" data-i18n="s2_label">Celebracions i esdeveniments</span>
+        <h3 data-i18n="s2_h3">Bateigs, comunions i moments que mereixen ser marcats.</h3>
+        <p data-i18n="s2_p">Cada celebració és única perquè la persona que es celebra és única. Fem composicions a mida que acompanyen el moment sense eclipsar-lo.</p>
+        <ul class="card-list">
+          <li data-i18n="s2_li1">Bateigs i comunions amb toc personal</li>
+          <li data-i18n="s2_li2">Aniversaris íntims o de gran format</li>
+          <li data-i18n="s2_li3">Sopars privats i events corporatius</li>
+          <li data-i18n="s2_li4">Rams personalitzats com a obsequi especial</li>
+        </ul>
+        <a href="#contacte" data-i18n="s2_link">Explica'm l'ocasió →</a>
+      </article>
+      <article class="card-s reveal">
+        <div class="card-s-img">
+          <img src="assets/decoracion-neon.png" alt="">
+        </div>
+        <span class="card-num" data-i18n="s3_label">Decoració floral per a espais</span>
+        <h3 data-i18n="s3_h3">Espais que respiren, que viuen, que conten alguna cosa.</h3>
+        <p data-i18n="s3_p">Treballem amb llars, comerços, hotels i restaurants que volen que les flors formin part del seu caràcter, no siguin simplement decoració.</p>
+        <ul class="card-list">
+          <li data-i18n="s3_li1">Composicions setmanals per a llars i oficines</li>
+          <li data-i18n="s3_li2">Instal·lacions estacionals i decoració d'aparador</li>
+          <li data-i18n="s3_li3">Ambientació d'espais d'hostaleria i comerç</li>
+          <li data-i18n="s3_li4">Assessoria botànica per a terrasses i jardins</li>
+        </ul>
+        <a href="#contacte" data-i18n="s3_link">Repensem el teu espai →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CITA ─── -->
+<div class="quote-block reveal">
+  <p data-i18n="banner">Cada flor que cultivem explica una història</p>
+</div>
+
+<!-- ─── GALERIA ─── -->
+<section id="galeria" class="section">
+  <div class="section-inner">
+    <div class="section-top reveal">
+      <h2 data-i18n="g_h2">Una petita finestra al nostre treball.</h2>
+    </div>
+    <div class="photo-grid reveal">
+      <a class="pg" href="#"><img src="assets/dalia-rosa.png" alt="Dàlies"></a>
+      <a class="pg" href="#"><img src="assets/20.jpg" alt="Composició floral"></a>
+      <a class="pg" href="#"><img src="https://images.unsplash.com/photo-1487070183336-b863922373d4?w=900&q=85&auto=format&fit=crop" alt=""></a>
+      <a class="pg" href="#"><img src="assets/peonias-rosa.png" alt="Peònies"></a>
+      <a class="pg" href="#"><img src="assets/16.jpg" alt="Composició floral"></a>
+      <a class="pg" href="#"><img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=900&q=85&auto=format&fit=crop" alt=""></a>
+      <a class="pg" href="#"><img src="assets/packaging-efecto-floral.png" alt="Packaging Efecto Floral"></a>
+      <a class="pg" href="#"><img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=900&q=85&auto=format&fit=crop" alt=""></a>
+      <a class="pg" href="#"><img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=900&q=85&auto=format&fit=crop" alt=""></a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACTE ─── -->
+<section id="contacte">
+  <div class="contacte-wrap">
+    <div class="contacte-left reveal">
+      <div>
+        <span class="eyebrow" data-i18n="c_label">Contacte</span>
+        <h2 data-i18n="c_h2">Explica'ns la teva història.</h2>
+        <p data-i18n="c_p">Cada projecte comença amb una conversa sense compromís. Explica'ns qui ets i el que vols celebrar — et donem resposta en pocs dies.</p>
+      </div>
+      <div class="info-list">
+        <div class="info-item">
+          <span class="label-s" data-i18n="info1_label">On som</span>
+          <div class="val"><span data-i18n="info1_val">Barcelona, Catalunya</span><span class="sub" data-i18n="info1_sub">Visites a l'atelier amb cita prèvia</span></div>
+        </div>
+        <div class="info-item">
+          <span class="label-s" data-i18n="info2_label">Horari</span>
+          <div class="val"><span data-i18n="info2_val">Dl — Dv · 9:00 – 19:00</span><span class="sub" data-i18n="info2_sub">Dissabtes · 10:00 – 14:00</span></div>
+        </div>
+        <div class="info-item">
+          <span class="label-s" data-i18n="info3_label">Correu</span>
+          <div class="val"><a href="mailto:info@efectofloral.es">info@efectofloral.es</a></div>
+        </div>
+        <div class="info-item">
+          <span class="label-s" data-i18n="info4_label">Instagram</span>
+          <div class="val"><a href="https://instagram.com/efectofloral" target="_blank" rel="noreferrer">@efectofloral</a></div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- VALORS -->
-  <section class="section section-alt">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="label" data-i18n="v_label">Com treballem</span>
-        <h2 data-i18n="v_h2">Tres principis que ho guien tot.</h2>
-        <p class="lead" data-i18n="v_lead">Coses en les quals creiem des del primer dia i que no hem deixat mai d'aplicar.</p>
-      </div>
-      <div class="valors">
-        <article class="valor reveal">
-          <span class="valor-num">01</span>
-          <h3 data-i18n="v1_h3">Passió genuïna</h3>
-          <p data-i18n="v1_p">Cada arranjament porta una intenció. Treballem amb temps perquè la cura es noti i, sobretot, perquè es recordi.</p>
-        </article>
-        <article class="valor reveal">
-          <span class="valor-num">02</span>
-          <h3 data-i18n="v2_h3">Respecte per la natura</h3>
-          <p data-i18n="v2_p">Flor de temporada, productors propers, gestos d'aprofitament. La bellesa surt de la terra — no cal forçar-la.</p>
-        </article>
-        <article class="valor reveal">
-          <span class="valor-num">03</span>
-          <h3 data-i18n="v3_h3">Detall i excel·lència</h3>
-          <p data-i18n="v3_p">En l'escollir, en el muntatge, en el lliurament. Quan està ben fet, no cal explicar-ho: la sensació ja ho diu tot.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVEIS -->
-  <section id="serveis" class="section">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="label" data-i18n="s_label">El que fem</span>
-        <h2 data-i18n="s_h2">Per a cada celebració, una flor.</h2>
-        <p class="lead" data-i18n="s_lead">Sempre comencem amb una conversa. Tu expliques, nosaltres escoltem i proposem.</p>
-      </div>
-      <div class="serveis">
-        <article class="servei reveal">
-          <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=1400&q=85&auto=format&fit=crop" alt="" class="servei-img">
-          <div class="servei-text">
-            <span class="label" data-i18n="s1_label">Bodes</span>
-            <h3 data-i18n="s1_h3">El dia que les flors expliquen la vostra història.</h3>
-            <p data-i18n="s1_p">Dissenyem la decoració floral de la cerimònia i l'àpat escoltant-vos. Volem que les flors del vostre dia reflecteixin qui sou — no una tendència.</p>
-            <ul class="servei-list">
-              <li data-i18n="s1_li1">Ram de núvia i acompanyaments nupcials</li>
-              <li data-i18n="s1_li2">Decoració d'altar, arc o cerimònia civil</li>
-              <li data-i18n="s1_li3">Centres de taula i ambientació del banquet</li>
-              <li data-i18n="s1_li4">Detalls per a convidats i racons fotogràfics</li>
-            </ul>
-            <a href="#contacte" class="btn-text" data-i18n="s1_link">Parlem de la teva boda →</a>
-          </div>
-        </article>
-
-        <article class="servei reveal">
-          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1400&q=85&auto=format&fit=crop" alt="" class="servei-img">
-          <div class="servei-text">
-            <span class="label" data-i18n="s2_label">Celebracions i esdeveniments</span>
-            <h3 data-i18n="s2_h3">Bateigs, comunions i moments que mereixen ser marcats.</h3>
-            <p data-i18n="s2_p">Cada celebració és única perquè la persona que es celebra és única. Fem composicions a mida que acompanyen el moment sense eclipsar-lo.</p>
-            <ul class="servei-list">
-              <li data-i18n="s2_li1">Bateigs i comunions amb toc personal</li>
-              <li data-i18n="s2_li2">Aniversaris íntims o de gran format</li>
-              <li data-i18n="s2_li3">Sopars privats i events corporatius</li>
-              <li data-i18n="s2_li4">Rams personalitzats com a obsequi especial</li>
-            </ul>
-            <a href="#contacte" class="btn-text" data-i18n="s2_link">Explica'm l'ocasió →</a>
-          </div>
-        </article>
-
-        <article class="servei reveal">
-          <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1400&q=85&auto=format&fit=crop" alt="" class="servei-img">
-          <div class="servei-text">
-            <span class="label" data-i18n="s3_label">Decoració floral per a espais</span>
-            <h3 data-i18n="s3_h3">Espais que respiren, que viuen, que conten alguna cosa.</h3>
-            <p data-i18n="s3_p">Treballem amb llars, comerços, hotels i restaurants que volen que les flors formin part del seu caràcter, no siguin simplement decoració.</p>
-            <ul class="servei-list">
-              <li data-i18n="s3_li1">Composicions setmanals per a llars i oficines</li>
-              <li data-i18n="s3_li2">Instal·lacions estacionals i decoració d'aparador</li>
-              <li data-i18n="s3_li3">Ambientació d'espais d'hostaleria i comerç</li>
-              <li data-i18n="s3_li4">Assessoria botànica per a terrasses i jardins</li>
-            </ul>
-            <a href="#contacte" class="btn-text" data-i18n="s3_link">Repensem el teu espai →</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALERIA -->
-  <section id="galeria" class="section section-alt">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="label" data-i18n="g_label">Galeria</span>
-        <h2 data-i18n="g_h2">Una petita finestra al nostre treball.</h2>
-      </div>
-      <div class="galeria reveal">
-        <a href="#"><img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1487070183336-b863922373d4?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1457269449834-928af64c684d?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1530092285049-1c42085fd395?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-        <a href="#"><img src="https://images.unsplash.com/photo-1591886960571-74d43a9d4166?w=1000&q=85&auto=format&fit=crop" alt=""></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTE -->
-  <section id="contacte" class="section section-contacte">
-    <div class="wrap">
-      <div class="contacte">
-        <div class="contacte-info reveal">
-          <span class="label" data-i18n="c_label">Contacte</span>
-          <h2 data-i18n="c_h2">Explica'ns la teva història.</h2>
-          <p data-i18n="c_p">Cada projecte comença amb una conversa sense compromís. Explica'ns qui ets i el que vols celebrar — et donem resposta en pocs dies amb una primera proposta pensada per a tu.</p>
-          <div class="info-list">
-            <div class="info-item">
-              <span class="label" data-i18n="info1_label">On som</span>
-              <div class="val"><span data-i18n="info1_val">Barcelona, Catalunya</span><span class="sub" data-i18n="info1_sub">Visites a l'atelier amb cita prèvia</span></div>
-            </div>
-            <div class="info-item">
-              <span class="label" data-i18n="info2_label">Horari</span>
-              <div class="val"><span data-i18n="info2_val">Dl — Dv · 9:00 – 19:00</span><span class="sub" data-i18n="info2_sub">Dissabtes · 10:00 – 14:00 · Diumenges, descansem</span></div>
-            </div>
-            <div class="info-item">
-              <span class="label" data-i18n="info3_label">Correu</span>
-              <div class="val"><a href="mailto:info@efectofloral.es">info@efectofloral.es</a></div>
-            </div>
-            <div class="info-item">
-              <span class="label" data-i18n="info4_label">Instagram</span>
-              <div class="val"><a href="https://instagram.com/efectofloral" target="_blank" rel="noreferrer">@efectofloral</a></div>
-            </div>
-          </div>
+    <div class="contacte-right">
+      <form class="form" id="contact-form" novalidate>
+        <div class="field">
+          <label for="f-nom" data-i18n="f_nom">Nom</label>
+          <input type="text" id="f-nom" name="nom" data-i18n-ph="f_nom_ph" placeholder="El teu nom" required>
         </div>
-
-        <form class="form reveal" id="contact-form" novalidate>
-          <div class="field">
-            <label for="f-nom" data-i18n="f_nom">Nom</label>
-            <input type="text" id="f-nom" name="nom" data-i18n-ph="f_nom_ph" placeholder="El teu nom" required>
-          </div>
-          <div class="field">
-            <label for="f-email" data-i18n="f_email">Correu</label>
-            <input type="email" id="f-email" name="email" data-i18n-ph="f_email_ph" placeholder="hola@exemple.com" required>
-          </div>
-          <div class="field">
-            <label for="f-tel" data-i18n="f_tel">Telèfon</label>
-            <input type="tel" id="f-tel" name="tel" placeholder="+34 600 000 000">
-          </div>
-          <div class="field">
-            <label for="f-event" data-i18n="f_event">Tipus d'ocasió</label>
-            <select id="f-event" name="event">
-              <option value="" disabled selected data-i18n-opt="f_event_default">Selecciona una opció</option>
-              <option value="boda" data-i18n-opt="f_event_boda">Boda</option>
-              <option value="bateig" data-i18n-opt="f_event_bateig">Bateig</option>
-              <option value="comunio" data-i18n-opt="f_event_comunio">Comunió</option>
-              <option value="aniversari" data-i18n-opt="f_event_aniversari">Aniversari</option>
-              <option value="festa" data-i18n-opt="f_event_festa">Festa privada</option>
-              <option value="decoracio" data-i18n-opt="f_event_decoracio">Decoració per a la llar o negoci</option>
-              <option value="altres" data-i18n-opt="f_event_altres">Una altra cosa</option>
-            </select>
-          </div>
-          <div class="field field-full">
-            <label for="f-msg" data-i18n="f_msg">Compta'ns-ho</label>
-            <textarea id="f-msg" name="msg" data-i18n-ph="f_msg_ph" placeholder="Data aproximada, lloc, quants convidats, quin ambient busques…"></textarea>
-          </div>
-          <div class="form-status" id="form-status" role="status" aria-live="polite" data-i18n="f_success">
-            Hem rebut el teu missatge. Gràcies per compartir-nos la teva història — et contactarem aviat.
-          </div>
-          <div class="form-foot">
-            <p class="consent" id="consent-text">En enviar acceptes la nostra <a href="#">política de privacitat</a>.</p>
-            <button type="submit" class="btn-submit">
-              <span data-i18n="f_submit">Enviar</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-          </div>
-        </form>
-      </div>
+        <div class="field">
+          <label for="f-email" data-i18n="f_email">Correu</label>
+          <input type="email" id="f-email" name="email" data-i18n-ph="f_email_ph" placeholder="hola@exemple.com" required>
+        </div>
+        <div class="field">
+          <label for="f-tel" data-i18n="f_tel">Telèfon</label>
+          <input type="tel" id="f-tel" name="tel" placeholder="+34 600 000 000">
+        </div>
+        <div class="field">
+          <label for="f-event" data-i18n="f_event">Tipus d'ocasió</label>
+          <select id="f-event" name="event">
+            <option value="" disabled selected data-i18n-opt="f_event_default">Selecciona una opció</option>
+            <option value="boda" data-i18n-opt="f_event_boda">Boda</option>
+            <option value="bateig" data-i18n-opt="f_event_bateig">Bateig</option>
+            <option value="comunio" data-i18n-opt="f_event_comunio">Comunió</option>
+            <option value="aniversari" data-i18n-opt="f_event_aniversari">Aniversari</option>
+            <option value="festa" data-i18n-opt="f_event_festa">Festa privada</option>
+            <option value="decoracio" data-i18n-opt="f_event_decoracio">Decoració per a la llar o negoci</option>
+            <option value="altres" data-i18n-opt="f_event_altres">Una altra cosa</option>
+          </select>
+        </div>
+        <div class="field field-full">
+          <label for="f-msg" data-i18n="f_msg">Compta'ns-ho</label>
+          <textarea id="f-msg" name="msg" data-i18n-ph="f_msg_ph" placeholder="Data aproximada, lloc, quants convidats, quin ambient busques…"></textarea>
+        </div>
+        <div class="form-status" id="form-status" role="status" aria-live="polite" data-i18n="f_success">
+          Hem rebut el teu missatge. Gràcies per compartir-nos la teva història — et contactarem aviat.
+        </div>
+        <div class="form-foot">
+          <p class="consent" id="consent-text">En enviar acceptes la nostra <a href="#">política de privacitat</a>.</p>
+          <button type="submit" class="btn-submit">
+            <span data-i18n="f_submit">Enviar</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </form>
     </div>
-  </section>
+  </div>
+</section>
 
 </main>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="#top" class="brand" aria-label="Efecto Floral">
-          <img src="assets/logo efecto.png" alt="Efecto Floral" class="brand-logo">
-        </a>
-        <p class="footer-tagline" data-i18n="footer_tagline">Cada flor que cultivem explica una història.</p>
-      </div>
-      <div class="footer-col">
-        <h4 data-i18n="footer_nav_h">Navega</h4>
-        <ul>
-          <li><a href="#historia" data-i18n="footer_nav_1">L'estudi</a></li>
-          <li><a href="#serveis" data-i18n="footer_nav_2">Serveis</a></li>
-          <li><a href="#galeria" data-i18n="footer_nav_3">Galeria</a></li>
-          <li><a href="#contacte" data-i18n="footer_nav_4">Contacte</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 data-i18n="footer_s_h">El que fem</h4>
-        <ul>
-          <li><a href="#serveis" data-i18n="footer_s_1">Bodes</a></li>
-          <li><a href="#serveis" data-i18n="footer_s_2">Celebracions</a></li>
-          <li><a href="#serveis" data-i18n="footer_s_3">Decoració d'espais</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 data-i18n="footer_c_h">Contacte</h4>
-        <a href="mailto:info@efectofloral.es" class="footer-email">info@efectofloral.es</a>
-        <p>Barcelona, Catalunya<br>Dl–Dv · 9:00–19:00<br>Ds · 10:00–14:00</p>
-      </div>
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer" role="contentinfo">
+    <div class="footer-brand">
+      <a href="#top" aria-label="Efecto Floral">
+        <img src="assets/logo efecto.png" alt="Efecto Floral">
+      </a>
+      <p class="footer-tagline" data-i18n="footer_tagline">Cada flor que cultivem explica una història.</p>
     </div>
-    <div class="footer-bottom">
-      <span data-i18n="footer_bottom">© 2026 Efecto Floral · Projecte familiar artesanal</span>
-      <div class="footer-legal">
-        <a href="#" data-i18n="footer_legal_1">Avís legal</a>
-        <a href="#" data-i18n="footer_legal_2">Privacitat</a>
-        <a href="#" data-i18n="footer_legal_3">Cookies</a>
-      </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_nav_h">Navega</h4>
+      <ul>
+        <li><a href="#historia" data-i18n="footer_nav_1">L'estudi</a></li>
+        <li><a href="#serveis" data-i18n="footer_nav_2">Serveis</a></li>
+        <li><a href="#galeria" data-i18n="footer_nav_3">Galeria</a></li>
+        <li><a href="#contacte" data-i18n="footer_nav_4">Contacte</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_c_h">Contacte</h4>
+      <a href="mailto:info@efectofloral.es" class="footer-email">info@efectofloral.es</a>
+      <p>Barcelona, Catalunya<br>Dl–Dv · 9–19 h<br>Ds · 10–14 h</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-i18n="footer_bottom">© 2026 Efecto Floral · Projecte familiar artesanal</span>
+    <div class="footer-legal">
+      <a href="#" data-i18n="footer_legal_1">Avís legal</a>
+      <a href="#" data-i18n="footer_legal_2">Privacitat</a>
+      <a href="#" data-i18n="footer_legal_3">Cookies</a>
     </div>
   </div>
 </footer>
 
 <script>
-// ─── TRADUCCIONS ───────────────────────────────────────────────
+// ─── TRADUCCIONS ─────────────────────────────────────────────────
 const T = {
-  ca: {
+  ca:{
     html_lang:'ca',
-    nav_estudi:"L'estudi", nav_serveis:"Serveis", nav_galeria:"Galeria", nav_contacte:"Contacte",
+    nav_estudi:"L'estudi",nav_serveis:"Serveis",nav_galeria:"Galeria",nav_contacte:"Contacte",
     nav_cta:"Sol·licitar pressupost",
     hero_eyebrow:"Floristeria artesanal · Barcelona",
     hero_h1:"Creem moments únics amb flors.",
     hero_lema:"Som un petit projecte familiar amb passió per la bellesa natural i el respecte amb l'entorn. Cada flor que cultivem explica una història.",
-    hero_btn1:"Parlem del teu projecte", hero_btn2:"Conèixer-nos →",
-    banner:"Cada flor que cultivem explica una història",
-    h_label:"L'estudi · La nostra història", h_h2:"Flors cultivades amb ànima.",
+    hero_btn1:"Parlem del teu projecte",hero_btn2:"Conèixer-nos →",
+    manifest_h:"No fem rams. Creem atmosferes.",
+    manifest_body:"Composicions florals amb mirada editorial: textures, estacions i peces naturals creades per donar presència, calma i caràcter.",
+    manifest_em:"Sense artifici. Sense pressa. Amb intenció.",
+    banner:"Cada flor que cultivem explica una història.",
+    h_label:"L'estudi · La nostra història",h_h2:"Flors cultivades amb ànima.",
     h_p1:"Som un petit projecte familiar nascut de la passió per la bellesa natural. L'Olga, fundadora i florista, porta anys treballant amb flor de temporada i productors locals, convençuda que cada flor carrega una memòria, un paisatge, una intenció.",
-    h_p2:"No tenim grans estocs ni catàlegs tancats. Cada encàrrec comença amb una conversa — volem entendre qui ets i el que vols celebrar — i acaba en un arranjament que sembla que sempre hagi format part d'aquell espai o d'aquell moment.",
+    h_p2:"No tenim grans estocs ni catàlegs tancats. Cada encàrrec comença amb una conversa — volem entendre qui ets i el que vols celebrar — i acaba en un arranjament que sembla que sempre hagi format part d'aquell espai.",
     h_p3:"Treballem calmadament i amb cura, perquè creiem que la pressa i la bellesa no s'avenen gaire.",
-    h_sig:"— Olga, fundadora d'Efecto Floral", h_img_caption:"Olga a l'atelier de Barcelona",
-    v_label:"Com treballem", v_h2:"Tres principis que ho guien tot.",
+    h_sig:"— Olga, fundadora d'Efecto Floral",
+    v_h2:"Tres principis que ho guien tot.",
     v_lead:"Coses en les quals creiem des del primer dia i que no hem deixat mai d'aplicar.",
-    v1_h3:"Passió genuïna", v1_p:"Cada arranjament porta una intenció. Treballem amb temps perquè la cura es noti i, sobretot, perquè es recordi.",
-    v2_h3:"Respecte per la natura", v2_p:"Flor de temporada, productors propers, gestos d'aprofitament. La bellesa surt de la terra — no cal forçar-la.",
-    v3_h3:"Detall i excel·lència", v3_p:"En l'escollir, en el muntatge, en el lliurament. Quan està ben fet, no cal explicar-ho: la sensació ja ho diu tot.",
-    s_label:"El que fem", s_h2:"Per a cada celebració, una flor.",
+    v1_h3:"Passió genuïna",v1_p:"Cada arranjament porta una intenció. Treballem amb temps perquè la cura es noti i, sobretot, perquè es recordi.",
+    v2_h3:"Respecte per la natura",v2_p:"Flor de temporada, productors propers, gestos d'aprofitament. La bellesa surt de la terra — no cal forçar-la.",
+    v3_h3:"Detall i excel·lència",v3_p:"En l'escollir, en el muntatge, en el lliurament. Quan està ben fet, no cal explicar-ho: la sensació ja ho diu tot.",
+    s_h2:"Per a cada celebració, una flor.",
     s_lead:"Sempre comencem amb una conversa. Tu expliques, nosaltres escoltem i proposem.",
-    s1_label:"Bodes", s1_h3:"El dia que les flors expliquen la vostra història.",
+    s1_label:"Bodes",s1_h3:"El dia que les flors expliquen la vostra història.",
     s1_p:"Dissenyem la decoració floral de la cerimònia i l'àpat escoltant-vos. Volem que les flors del vostre dia reflecteixin qui sou — no una tendència.",
-    s1_li1:"Ram de núvia i acompanyaments nupcials", s1_li2:"Decoració d'altar, arc o cerimònia civil",
-    s1_li3:"Centres de taula i ambientació del banquet", s1_li4:"Detalls per a convidats i racons fotogràfics",
+    s1_li1:"Ram de núvia i acompanyaments nupcials",s1_li2:"Decoració d'altar, arc o cerimònia civil",
+    s1_li3:"Centres de taula i ambientació del banquet",s1_li4:"Detalls per a convidats i racons fotogràfics",
     s1_link:"Parlem de la teva boda →",
-    s2_label:"Celebracions i esdeveniments", s2_h3:"Bateigs, comunions i moments que mereixen ser marcats.",
+    s2_label:"Celebracions i esdeveniments",s2_h3:"Bateigs, comunions i moments que mereixen ser marcats.",
     s2_p:"Cada celebració és única perquè la persona que es celebra és única. Fem composicions a mida que acompanyen el moment sense eclipsar-lo.",
-    s2_li1:"Bateigs i comunions amb toc personal", s2_li2:"Aniversaris íntims o de gran format",
-    s2_li3:"Sopars privats i events corporatius", s2_li4:"Rams personalitzats com a obsequi especial",
+    s2_li1:"Bateigs i comunions amb toc personal",s2_li2:"Aniversaris íntims o de gran format",
+    s2_li3:"Sopars privats i events corporatius",s2_li4:"Rams personalitzats com a obsequi especial",
     s2_link:"Explica'm l'ocasió →",
-    s3_label:"Decoració floral per a espais", s3_h3:"Espais que respiren, que viuen, que conten alguna cosa.",
+    s3_label:"Decoració floral per a espais",s3_h3:"Espais que respiren, que viuen, que conten alguna cosa.",
     s3_p:"Treballem amb llars, comerços, hotels i restaurants que volen que les flors formin part del seu caràcter, no siguin simplement decoració.",
-    s3_li1:"Composicions setmanals per a llars i oficines", s3_li2:"Instal·lacions estacionals i decoració d'aparador",
-    s3_li3:"Ambientació d'espais d'hostaleria i comerç", s3_li4:"Assessoria botànica per a terrasses i jardins",
+    s3_li1:"Composicions setmanals per a llars i oficines",s3_li2:"Instal·lacions estacionals i decoració d'aparador",
+    s3_li3:"Ambientació d'espais d'hostaleria i comerç",s3_li4:"Assessoria botànica per a terrasses i jardins",
     s3_link:"Repensem el teu espai →",
-    g_label:"Galeria", g_h2:"Una petita finestra al nostre treball.",
-    c_label:"Contacte", c_h2:"Explica'ns la teva història.",
-    c_p:"Cada projecte comença amb una conversa sense compromís. Explica'ns qui ets i el que vols celebrar — et donem resposta en pocs dies amb una primera proposta pensada per a tu.",
-    info1_label:"On som", info1_val:"Barcelona, Catalunya", info1_sub:"Visites a l'atelier amb cita prèvia",
-    info2_label:"Horari", info2_val:"Dl — Dv · 9:00 – 19:00", info2_sub:"Dissabtes · 10:00 – 14:00 · Diumenges, descansem",
-    info3_label:"Correu", info4_label:"Instagram",
-    f_nom:"Nom", f_nom_ph:"El teu nom", f_email:"Correu", f_email_ph:"hola@exemple.com",
-    f_tel:"Telèfon", f_event:"Tipus d'ocasió",
-    f_event_default:"Selecciona una opció", f_event_boda:"Boda", f_event_bateig:"Bateig",
-    f_event_comunio:"Comunió", f_event_aniversari:"Aniversari", f_event_festa:"Festa privada",
-    f_event_decoracio:"Decoració per a la llar o negoci", f_event_altres:"Una altra cosa",
-    f_msg:"Compta'ns-ho", f_msg_ph:"Data aproximada, lloc, quants convidats, quin ambient busques…",
-    f_consent:"En enviar acceptes la nostra", f_consent_link:"política de privacitat", f_submit:"Enviar",
+    g_h2:"Una petita finestra al nostre treball.",
+    c_label:"Contacte",c_h2:"Explica'ns la teva història.",
+    c_p:"Cada projecte comença amb una conversa sense compromís. Explica'ns qui ets i el que vols celebrar — et donem resposta en pocs dies.",
+    info1_label:"On som",info1_val:"Barcelona, Catalunya",info1_sub:"Visites a l'atelier amb cita prèvia",
+    info2_label:"Horari",info2_val:"Dl — Dv · 9:00 – 19:00",info2_sub:"Dissabtes · 10:00 – 14:00",
+    info3_label:"Correu",info4_label:"Instagram",
+    f_nom:"Nom",f_nom_ph:"El teu nom",f_email:"Correu",f_email_ph:"hola@exemple.com",
+    f_tel:"Telèfon",f_event:"Tipus d'ocasió",
+    f_event_default:"Selecciona una opció",f_event_boda:"Boda",f_event_bateig:"Bateig",
+    f_event_comunio:"Comunió",f_event_aniversari:"Aniversari",f_event_festa:"Festa privada",
+    f_event_decoracio:"Decoració per a la llar o negoci",f_event_altres:"Una altra cosa",
+    f_msg:"Compta'ns-ho",f_msg_ph:"Data aproximada, lloc, quants convidats, quin ambient busques…",
+    f_consent:"En enviar acceptes la nostra",f_consent_link:"política de privacitat",f_submit:"Enviar",
     f_success:"Hem rebut el teu missatge. Gràcies per compartir-nos la teva història — et contactarem aviat.",
     footer_tagline:"Cada flor que cultivem explica una història.",
-    footer_nav_h:"Navega", footer_s_h:"El que fem", footer_c_h:"Contacte",
-    footer_nav_1:"L'estudi", footer_nav_2:"Serveis", footer_nav_3:"Galeria", footer_nav_4:"Contacte",
-    footer_s_1:"Bodes", footer_s_2:"Celebracions", footer_s_3:"Decoració d'espais",
+    footer_nav_h:"Navega",footer_c_h:"Contacte",
+    footer_nav_1:"L'estudi",footer_nav_2:"Serveis",footer_nav_3:"Galeria",footer_nav_4:"Contacte",
     footer_bottom:"© 2026 Efecto Floral · Projecte familiar artesanal",
-    footer_legal_1:"Avís legal", footer_legal_2:"Privacitat", footer_legal_3:"Cookies",
-    doc_title:"Efecto Floral — Floristeria artesanal · Barcelona"
+    footer_legal_1:"Avís legal",footer_legal_2:"Privacitat",footer_legal_3:"Cookies",
+    doc_title:"Efecto Floral — Estudi floral artesanal · Barcelona"
   },
-  es: {
+  es:{
     html_lang:'es',
-    nav_estudi:"El estudio", nav_serveis:"Servicios", nav_galeria:"Galería", nav_contacte:"Contacto",
+    nav_estudi:"El estudio",nav_serveis:"Servicios",nav_galeria:"Galería",nav_contacte:"Contacto",
     nav_cta:"Solicitar presupuesto",
     hero_eyebrow:"Floristería artesanal · Barcelona",
     hero_h1:"Creamos momentos únicos con flores.",
     hero_lema:"Somos un pequeño proyecto familiar con pasión por la belleza natural y el respeto con el entorno. Cada flor que cultivamos explica una historia.",
-    hero_btn1:"Hablemos de tu proyecto", hero_btn2:"Conócenos →",
-    banner:"Cada flor que cultivamos explica una historia",
-    h_label:"El estudio · Nuestra historia", h_h2:"Flores cultivadas con alma.",
+    hero_btn1:"Hablemos de tu proyecto",hero_btn2:"Conócenos →",
+    manifest_h:"No hacemos ramos. Creamos atmósferas.",
+    manifest_body:"Composiciones florales con mirada editorial: texturas, estaciones y piezas naturales creadas para dar presencia, calma y carácter.",
+    manifest_em:"Sin artificio. Sin prisa. Con intención.",
+    banner:"Cada flor que cultivamos explica una historia.",
+    h_label:"El estudio · Nuestra historia",h_h2:"Flores cultivadas con alma.",
     h_p1:"Somos un pequeño proyecto familiar nacido de la pasión por la belleza natural. Olga, fundadora y florista, lleva años trabajando con flor de temporada y productores locales, convencida de que cada flor carga una memoria, un paisaje, una intención.",
-    h_p2:"No tenemos grandes stocks ni catálogos cerrados. Cada encargo empieza con una conversación — queremos entender quién eres y qué quieres celebrar — y termina en un arreglo que parece que siempre haya formado parte de ese espacio o de ese momento.",
+    h_p2:"No tenemos grandes stocks ni catálogos cerrados. Cada encargo empieza con una conversación — queremos entender quién eres y qué quieres celebrar — y termina en un arreglo que parece que siempre haya formado parte de ese espacio.",
     h_p3:"Trabajamos con calma y con cuidado, porque creemos que las prisas y la belleza no se llevan demasiado bien.",
-    h_sig:"— Olga, fundadora de Efecto Floral", h_img_caption:"Olga en el atelier de Barcelona",
-    v_label:"Cómo trabajamos", v_h2:"Tres principios que lo guían todo.",
+    h_sig:"— Olga, fundadora de Efecto Floral",
+    v_h2:"Tres principios que lo guían todo.",
     v_lead:"Cosas en las que creemos desde el primer día y que nunca hemos dejado de aplicar.",
-    v1_h3:"Pasión genuina", v1_p:"Cada arreglo lleva una intención. Trabajamos con tiempo para que el cuidado se note y, sobre todo, para que se recuerde.",
-    v2_h3:"Respeto por la naturaleza", v2_p:"Flor de temporada, productores cercanos, gestos de aprovechamiento. La belleza sale de la tierra — no hace falta forzarla.",
-    v3_h3:"Detalle y excelencia", v3_p:"En el escoger, en el montaje, en la entrega. Cuando está bien hecho, no hace falta explicarlo: la sensación ya lo dice todo.",
-    s_label:"Lo que hacemos", s_h2:"Para cada celebración, una flor.",
+    v1_h3:"Pasión genuina",v1_p:"Cada arreglo lleva una intención. Trabajamos con tiempo para que el cuidado se note y, sobre todo, para que se recuerde.",
+    v2_h3:"Respeto por la naturaleza",v2_p:"Flor de temporada, productores cercanos, gestos de aprovechamiento. La belleza sale de la tierra — no hace falta forzarla.",
+    v3_h3:"Detalle y excelencia",v3_p:"En el escoger, en el montaje, en la entrega. Cuando está bien hecho, no hace falta explicarlo: la sensación ya lo dice todo.",
+    s_h2:"Para cada celebración, una flor.",
     s_lead:"Siempre empezamos con una conversación. Tú explicas, nosotros escuchamos y proponemos.",
-    s1_label:"Bodas", s1_h3:"El día en que las flores explican vuestra historia.",
+    s1_label:"Bodas",s1_h3:"El día en que las flores explican vuestra historia.",
     s1_p:"Diseñamos la decoración floral de la ceremonia y el banquete escuchándoos. Queremos que las flores de vuestro día reflejen quiénes sois — no una tendencia.",
-    s1_li1:"Ramo de novia y acompañamientos nupciales", s1_li2:"Decoración de altar, arco o ceremonia civil",
-    s1_li3:"Centros de mesa y ambientación del banquete", s1_li4:"Detalles para invitados y rincones fotográficos",
+    s1_li1:"Ramo de novia y acompañamientos nupciales",s1_li2:"Decoración de altar, arco o ceremonia civil",
+    s1_li3:"Centros de mesa y ambientación del banquete",s1_li4:"Detalles para invitados y rincones fotográficos",
     s1_link:"Hablemos de tu boda →",
-    s2_label:"Celebraciones y eventos", s2_h3:"Bautizos, comuniones y momentos que merecen ser marcados.",
+    s2_label:"Celebraciones y eventos",s2_h3:"Bautizos, comuniones y momentos que merecen ser marcados.",
     s2_p:"Cada celebración es única porque la persona que se celebra es única. Hacemos composiciones a medida que acompañan el momento sin eclipsarlo.",
-    s2_li1:"Bautizos y comuniones con toque personal", s2_li2:"Aniversarios íntimos o de gran formato",
-    s2_li3:"Cenas privadas y eventos corporativos", s2_li4:"Ramos personalizados como obsequio especial",
+    s2_li1:"Bautizos y comuniones con toque personal",s2_li2:"Aniversarios íntimos o de gran formato",
+    s2_li3:"Cenas privadas y eventos corporativos",s2_li4:"Ramos personalizados como obsequio especial",
     s2_link:"Cuéntame la ocasión →",
-    s3_label:"Decoración floral para espacios", s3_h3:"Espacios que respiran, que viven, que cuentan algo.",
+    s3_label:"Decoración floral para espacios",s3_h3:"Espacios que respiran, que viven, que cuentan algo.",
     s3_p:"Trabajamos con hogares, comercios, hoteles y restaurantes que quieren que las flores formen parte de su carácter, no sean simplemente decoración.",
-    s3_li1:"Composiciones semanales para hogares y oficinas", s3_li2:"Instalaciones estacionales y decoración de escaparate",
-    s3_li3:"Ambientación de espacios de hostelería y comercio", s3_li4:"Asesoría botánica para terrazas y jardines",
+    s3_li1:"Composiciones semanales para hogares y oficinas",s3_li2:"Instalaciones estacionales y decoración de escaparate",
+    s3_li3:"Ambientación de espacios de hostelería y comercio",s3_li4:"Asesoría botánica para terrazas y jardines",
     s3_link:"Repensemos tu espacio →",
-    g_label:"Galería", g_h2:"Una pequeña ventana a nuestro trabajo.",
-    c_label:"Contacto", c_h2:"Cuéntanos tu historia.",
-    c_p:"Cada proyecto empieza con una conversación sin compromiso. Cuéntanos quién eres y qué quieres celebrar — te respondemos en pocos días con una primera propuesta pensada para ti.",
-    info1_label:"Dónde estamos", info1_val:"Barcelona, Catalunya", info1_sub:"Visitas al atelier con cita previa",
-    info2_label:"Horario", info2_val:"Lun — Vie · 9:00 – 19:00", info2_sub:"Sábados · 10:00 – 14:00 · Domingos, descansamos",
-    info3_label:"Correo", info4_label:"Instagram",
-    f_nom:"Nombre", f_nom_ph:"Tu nombre", f_email:"Correo", f_email_ph:"hola@ejemplo.com",
-    f_tel:"Teléfono", f_event:"Tipo de ocasión",
-    f_event_default:"Selecciona una opción", f_event_boda:"Boda", f_event_bateig:"Bautizo",
-    f_event_comunio:"Comunión", f_event_aniversari:"Aniversario", f_event_festa:"Fiesta privada",
-    f_event_decoracio:"Decoración para el hogar o negocio", f_event_altres:"Otra cosa",
-    f_msg:"Cuéntanoslo", f_msg_ph:"Fecha aproximada, lugar, cuántos invitados, qué ambiente buscas…",
-    f_consent:"Al enviar aceptas nuestra", f_consent_link:"política de privacidad", f_submit:"Enviar",
+    g_h2:"Una pequeña ventana a nuestro trabajo.",
+    c_label:"Contacto",c_h2:"Cuéntanos tu historia.",
+    c_p:"Cada proyecto empieza con una conversación sin compromiso. Cuéntanos quién eres y qué quieres celebrar — te respondemos en pocos días.",
+    info1_label:"Dónde estamos",info1_val:"Barcelona, Catalunya",info1_sub:"Visitas al atelier con cita previa",
+    info2_label:"Horario",info2_val:"Lun — Vie · 9:00 – 19:00",info2_sub:"Sábados · 10:00 – 14:00",
+    info3_label:"Correo",info4_label:"Instagram",
+    f_nom:"Nombre",f_nom_ph:"Tu nombre",f_email:"Correo",f_email_ph:"hola@ejemplo.com",
+    f_tel:"Teléfono",f_event:"Tipo de ocasión",
+    f_event_default:"Selecciona una opción",f_event_boda:"Boda",f_event_bateig:"Bautizo",
+    f_event_comunio:"Comunión",f_event_aniversari:"Aniversario",f_event_festa:"Fiesta privada",
+    f_event_decoracio:"Decoración para el hogar o negocio",f_event_altres:"Otra cosa",
+    f_msg:"Cuéntanoslo",f_msg_ph:"Fecha aproximada, lugar, cuántos invitados, qué ambiente buscas…",
+    f_consent:"Al enviar aceptas nuestra",f_consent_link:"política de privacidad",f_submit:"Enviar",
     f_success:"Hemos recibido tu mensaje. Gracias por compartir tu historia con nosotros — te contactaremos pronto.",
     footer_tagline:"Cada flor que cultivamos explica una historia.",
-    footer_nav_h:"Navega", footer_s_h:"Lo que hacemos", footer_c_h:"Contacto",
-    footer_nav_1:"El estudio", footer_nav_2:"Servicios", footer_nav_3:"Galería", footer_nav_4:"Contacto",
-    footer_s_1:"Bodas", footer_s_2:"Celebraciones", footer_s_3:"Decoración de espacios",
+    footer_nav_h:"Navega",footer_c_h:"Contacto",
+    footer_nav_1:"El estudio",footer_nav_2:"Servicios",footer_nav_3:"Galería",footer_nav_4:"Contacto",
     footer_bottom:"© 2026 Efecto Floral · Proyecto familiar artesanal",
-    footer_legal_1:"Aviso legal", footer_legal_2:"Privacidad", footer_legal_3:"Cookies",
+    footer_legal_1:"Aviso legal",footer_legal_2:"Privacidad",footer_legal_3:"Cookies",
     doc_title:"Efecto Floral — Floristería artesanal · Barcelona"
   },
-  en: {
+  en:{
     html_lang:'en',
-    nav_estudi:"Our studio", nav_serveis:"Services", nav_galeria:"Gallery", nav_contacte:"Contact",
+    nav_estudi:"Our studio",nav_serveis:"Services",nav_galeria:"Gallery",nav_contacte:"Contact",
     nav_cta:"Request a quote",
     hero_eyebrow:"Artisan florist · Barcelona",
     hero_h1:"We create unique moments with flowers.",
     hero_lema:"We are a small family project with a passion for natural beauty and respect for the environment. Every flower we grow tells a story.",
-    hero_btn1:"Let's talk about your project", hero_btn2:"Meet us →",
-    banner:"Every flower we grow tells a story",
-    h_label:"Our studio · Our story", h_h2:"Flowers grown with soul.",
+    hero_btn1:"Let's talk about your project",hero_btn2:"Meet us →",
+    manifest_h:"We don't make bouquets. We create atmospheres.",
+    manifest_body:"Floral compositions with an editorial eye: textures, seasons and natural pieces made to bring presence, calm and character.",
+    manifest_em:"No artifice. No rush. With intention.",
+    banner:"Every flower we grow tells a story.",
+    h_label:"Our studio · Our story",h_h2:"Flowers grown with soul.",
     h_p1:"We are a small family project born from a passion for natural beauty. Olga, our founder and florist, has spent years working with seasonal flowers and local growers, believing that each flower carries a memory, a landscape, an intention.",
-    h_p2:"We have no large stocks or fixed catalogues. Every commission begins with a conversation — we want to understand who you are and what you want to celebrate — and ends in an arrangement that feels like it has always belonged in that space or that moment.",
+    h_p2:"We have no large stocks or fixed catalogues. Every commission begins with a conversation — we want to understand who you are and what you want to celebrate — and ends in an arrangement that feels like it has always belonged in that space.",
     h_p3:"We work calmly and with care, because we believe that rushing and beauty simply don't go well together.",
-    h_sig:"— Olga, founder of Efecto Floral", h_img_caption:"Olga at the Barcelona atelier",
-    v_label:"How we work", v_h2:"Three principles that guide everything.",
+    h_sig:"— Olga, founder of Efecto Floral",
+    v_h2:"Three principles that guide everything.",
     v_lead:"Things we have believed in from the very first day and have never stopped applying.",
-    v1_h3:"Genuine passion", v1_p:"Every arrangement carries an intention. We work with time so that the care shows and, above all, so that it is remembered.",
-    v2_h3:"Respect for nature", v2_p:"Seasonal flowers, nearby growers, mindful choices. Beauty comes from the earth — there's no need to force it.",
-    v3_h3:"Detail and excellence", v3_p:"In the choosing, in the making, in the delivery. When it's done right, there's nothing left to explain — the feeling says it all.",
-    s_label:"What we do", s_h2:"For every celebration, a flower.",
+    v1_h3:"Genuine passion",v1_p:"Every arrangement carries an intention. We work with time so that the care shows and, above all, so that it is remembered.",
+    v2_h3:"Respect for nature",v2_p:"Seasonal flowers, nearby growers, mindful choices. Beauty comes from the earth — there's no need to force it.",
+    v3_h3:"Detail and excellence",v3_p:"In the choosing, in the making, in the delivery. When it's done right, there's nothing left to explain — the feeling says it all.",
+    s_h2:"For every celebration, a flower.",
     s_lead:"We always begin with a conversation. You tell us, we listen and propose.",
-    s1_label:"Weddings", s1_h3:"The day when flowers tell your story.",
+    s1_label:"Weddings",s1_h3:"The day when flowers tell your story.",
     s1_p:"We design the floral decor for your ceremony and reception by truly listening to you. We want the flowers of your day to reflect who you are — not a trend.",
-    s1_li1:"Bridal bouquet and wedding party flowers", s1_li2:"Altar, arch or civil ceremony decoration",
-    s1_li3:"Table centrepieces and reception ambiance", s1_li4:"Guest favours and photo corner details",
+    s1_li1:"Bridal bouquet and wedding party flowers",s1_li2:"Altar, arch or civil ceremony decoration",
+    s1_li3:"Table centrepieces and reception ambiance",s1_li4:"Guest favours and photo corner details",
     s1_link:"Let's talk about your wedding →",
-    s2_label:"Events & celebrations", s2_h3:"Christenings, communions and moments that deserve to be marked.",
+    s2_label:"Events & celebrations",s2_h3:"Christenings, communions and moments that deserve to be marked.",
     s2_p:"Every celebration is unique because the person being celebrated is unique. We create bespoke arrangements that accompany the moment without overshadowing it.",
-    s2_li1:"Christenings and communions with a personal touch", s2_li2:"Intimate or large-scale anniversaries",
-    s2_li3:"Private dinners and corporate events", s2_li4:"Personalised bouquets as a special gift",
+    s2_li1:"Christenings and communions with a personal touch",s2_li2:"Intimate or large-scale anniversaries",
+    s2_li3:"Private dinners and corporate events",s2_li4:"Personalised bouquets as a special gift",
     s2_link:"Tell me about your occasion →",
-    s3_label:"Floral decoration for spaces", s3_h3:"Spaces that breathe, live and tell a story.",
+    s3_label:"Floral decoration for spaces",s3_h3:"Spaces that breathe, live and tell a story.",
     s3_p:"We work with homes, shops, hotels and restaurants that want flowers to be part of their character — not just decoration.",
-    s3_li1:"Weekly arrangements for homes and offices", s3_li2:"Seasonal installations and window displays",
-    s3_li3:"Hospitality and retail space styling", s3_li4:"Botanical consultancy for terraces and gardens",
+    s3_li1:"Weekly arrangements for homes and offices",s3_li2:"Seasonal installations and window displays",
+    s3_li3:"Hospitality and retail space styling",s3_li4:"Botanical consultancy for terraces and gardens",
     s3_link:"Let's rethink your space →",
-    g_label:"Gallery", g_h2:"A small window into our work.",
-    c_label:"Contact", c_h2:"Tell us your story.",
-    c_p:"Every project begins with a no-commitment conversation. Tell us who you are and what you want to celebrate — we'll get back to you within a few days with a first proposal made just for you.",
-    info1_label:"Where we are", info1_val:"Barcelona, Catalonia", info1_sub:"Studio visits by appointment",
-    info2_label:"Opening hours", info2_val:"Mon — Fri · 9:00 – 19:00", info2_sub:"Saturdays · 10:00 – 14:00 · Sundays, we rest",
-    info3_label:"Email", info4_label:"Instagram",
-    f_nom:"Name", f_nom_ph:"Your name", f_email:"Email", f_email_ph:"hello@example.com",
-    f_tel:"Phone", f_event:"Type of occasion",
-    f_event_default:"Select an option", f_event_boda:"Wedding", f_event_bateig:"Christening",
-    f_event_comunio:"Communion", f_event_aniversari:"Anniversary", f_event_festa:"Private party",
-    f_event_decoracio:"Home or business decoration", f_event_altres:"Something else",
-    f_msg:"Tell us about it", f_msg_ph:"Approximate date, venue, number of guests, the atmosphere you're after…",
-    f_consent:"By submitting you accept our", f_consent_link:"privacy policy", f_submit:"Send",
+    g_h2:"A small window into our work.",
+    c_label:"Contact",c_h2:"Tell us your story.",
+    c_p:"Every project begins with a no-commitment conversation. Tell us who you are and what you want to celebrate — we'll get back to you within a few days.",
+    info1_label:"Where we are",info1_val:"Barcelona, Catalonia",info1_sub:"Studio visits by appointment",
+    info2_label:"Opening hours",info2_val:"Mon — Fri · 9:00 – 19:00",info2_sub:"Saturdays · 10:00 – 14:00",
+    info3_label:"Email",info4_label:"Instagram",
+    f_nom:"Name",f_nom_ph:"Your name",f_email:"Email",f_email_ph:"hello@example.com",
+    f_tel:"Phone",f_event:"Type of occasion",
+    f_event_default:"Select an option",f_event_boda:"Wedding",f_event_bateig:"Christening",
+    f_event_comunio:"Communion",f_event_aniversari:"Anniversary",f_event_festa:"Private party",
+    f_event_decoracio:"Home or business decoration",f_event_altres:"Something else",
+    f_msg:"Tell us about it",f_msg_ph:"Approximate date, venue, number of guests, the atmosphere you're after…",
+    f_consent:"By submitting you accept our",f_consent_link:"privacy policy",f_submit:"Send",
     f_success:"We've received your message. Thank you for sharing your story with us — we'll be in touch soon.",
     footer_tagline:"Every flower we grow tells a story.",
-    footer_nav_h:"Navigate", footer_s_h:"What we do", footer_c_h:"Contact",
-    footer_nav_1:"Our studio", footer_nav_2:"Services", footer_nav_3:"Gallery", footer_nav_4:"Contact",
-    footer_s_1:"Weddings", footer_s_2:"Events", footer_s_3:"Space decoration",
+    footer_nav_h:"Navigate",footer_c_h:"Contact",
+    footer_nav_1:"Our studio",footer_nav_2:"Services",footer_nav_3:"Gallery",footer_nav_4:"Contact",
     footer_bottom:"© 2026 Efecto Floral · Family artisan project",
-    footer_legal_1:"Legal notice", footer_legal_2:"Privacy", footer_legal_3:"Cookies",
+    footer_legal_1:"Legal notice",footer_legal_2:"Privacy",footer_legal_3:"Cookies",
     doc_title:"Efecto Floral — Artisan florist · Barcelona"
   }
 };
 
-// ─── APLICAR IDIOMA ────────────────────────────────────────────
-function applyLang(lang) {
-  const t = T[lang]; if (!t) return;
-  document.getElementById('html-root').lang = t.html_lang;
-  document.title = t.doc_title;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.getAttribute('data-i18n');
-    if (t[k] !== undefined) el.textContent = t[k];
+// ─── I18N ─────────────────────────────────────────────────────────
+function applyLang(lang){
+  const t=T[lang];if(!t)return;
+  document.getElementById('html-root').lang=t.html_lang;
+  document.title=t.doc_title;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(t[k]!==undefined)el.textContent=t[k];
   });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    const k = el.getAttribute('data-i18n-ph');
-    if (t[k] !== undefined) el.placeholder = t[k];
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-ph');
+    if(t[k]!==undefined)el.placeholder=t[k];
   });
-  document.querySelectorAll('[data-i18n-opt]').forEach(el => {
-    const k = el.getAttribute('data-i18n-opt');
-    if (t[k] !== undefined) el.textContent = t[k];
+  document.querySelectorAll('[data-i18n-opt]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-opt');
+    if(t[k]!==undefined)el.textContent=t[k];
   });
-  const consent = document.getElementById('consent-text');
-  if (consent) consent.innerHTML = `${t.f_consent} <a href="#">${t.f_consent_link}</a>.`;
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  const consent=document.getElementById('consent-text');
+  if(consent)consent.innerHTML=`${t.f_consent} <a href="#">${t.f_consent_link}</a>.`;
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.toggle('active',btn.getAttribute('data-lang')===lang);
   });
-  localStorage.setItem('ef-lang', lang);
+  localStorage.setItem('ef-lang',lang);
 }
-
-// ─── INIT ──────────────────────────────────────────────────────
-const savedLang = localStorage.getItem('ef-lang') || 'ca';
+const savedLang=localStorage.getItem('ef-lang')||'ca';
 applyLang(savedLang);
-
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>applyLang(btn.getAttribute('data-lang')));
 });
 
-// ─── REVEAL ───────────────────────────────────────────────────
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach((el, i) => {
-  if (el.closest('.valors') || el.closest('.galeria')) el.style.transitionDelay = (i * .07) + 's';
-  io.observe(el);
-});
+// ─── NAV SCROLL ────────────────────────────────────────────────
+const navEl=document.getElementById('nav');
+const heroEl=document.querySelector('.hero');
+function updateNav(){
+  const past=window.scrollY>heroEl.offsetHeight*.6;
+  navEl.classList.toggle('is-light',past);
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+updateNav();
 
-// ─── MENÚ MÒBIL ───────────────────────────────────────────────
-const nt = document.getElementById('nav-toggle');
-const nl = document.getElementById('nav-links');
-nt && nt.addEventListener('click', () => {
-  const o = nl.classList.toggle('open');
-  nt.setAttribute('aria-expanded', o);
+// ─── REVEAL ────────────────────────────────────────────────────
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ─── NAV MOBILE ────────────────────────────────────────────────
+const nt=document.getElementById('nav-toggle');
+const nl=document.getElementById('nav-links');
+nt&&nt.addEventListener('click',()=>{
+  const o=nl.classList.toggle('open');
+  nt.setAttribute('aria-expanded',o);
 });
-nl && nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+nl&&nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   nl.classList.remove('open');
-  nt.setAttribute('aria-expanded', 'false');
+  nt.setAttribute('aria-expanded','false');
 }));
 
-// ─── FORMULARI ────────────────────────────────────────────────
-const form = document.getElementById('contact-form');
-const status = document.getElementById('form-status');
-form.addEventListener('submit', e => {
+// ─── FORM ──────────────────────────────────────────────────────
+const form=document.getElementById('contact-form');
+const status=document.getElementById('form-status');
+form.addEventListener('submit',e=>{
   e.preventDefault();
-  const nom = form.nom.value.trim(), email = form.email.value.trim();
-  if (!nom || !email) {
-    [form.nom, form.email].forEach(i => {
-      if (!i.value.trim()) {
-        i.style.borderColor = '#B86B7A';
-        i.addEventListener('input', () => i.style.borderColor = '', { once: true });
+  const nom=form.nom.value.trim(),email=form.email.value.trim();
+  if(!nom||!email){
+    [form.nom,form.email].forEach(i=>{
+      if(!i.value.trim()){
+        i.style.borderColor='#B57465';
+        i.addEventListener('input',()=>i.style.borderColor='',{once:true});
       }
     });
     return;
   }
   status.classList.add('show');
-  const btn = form.querySelector('.btn-submit');
-  btn.style.opacity = '.6'; btn.disabled = true;
-  setTimeout(() => {
-    form.reset(); status.classList.remove('show');
-    btn.style.opacity = '1'; btn.disabled = false;
-  }, 5500);
+  const btn=form.querySelector('.btn-submit');
+  btn.style.opacity='.6';btn.disabled=true;
+  setTimeout(()=>{form.reset();status.classList.remove('show');btn.style.opacity='1';btn.disabled=false;},5500);
 });
 </script>
 </body>
