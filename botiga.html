@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Botiga — Efecto Floral</title>
+<meta name="description" content="La botiga d'Efecto Floral. Aviat disponible.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F0E6;--ink:#1F1C18;--muted:#7A6E65;
+  --olive:#6B7355;--terra:#B57465;--cream:#FFFAF0;
+  --line:rgba(31,28,24,.15);--line-s:rgba(31,28,24,.07);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Manrope',Inter,sans-serif;
+  --t:.4s cubic-bezier(.32,.72,.32,1);
+  --g:clamp(1.4rem,4.5vw,3.5rem);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  min-height:100svh;display:flex;flex-direction:column;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.2rem var(--g);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--paper);
+  box-shadow:0 1px 0 var(--line-s);
+}
+.brand-logo{height:40px;width:auto;max-width:130px;object-fit:contain}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+  font-size:.8rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);transition:color var(--t);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--terra)}
+.nav-cta{
+  font-family:var(--serif);font-size:.92rem;font-style:italic;
+  color:var(--terra);padding:.45rem 1rem;
+  border:1px solid rgba(181,116,101,.35);border-radius:999px;
+  transition:background var(--t),color var(--t);
+}
+.nav-cta:hover{background:var(--terra);color:var(--cream)}
+.nav-toggle{display:none;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;background:none;border:none}
+.nav-toggle span{display:block;width:22px;height:1px;background:var(--ink);transition:var(--t)}
+
+/* ── MAIN ── */
+main{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:120px var(--g) 5rem;text-align:center;
+  min-height:100svh;
+}
+
+/* ── COMING SOON ── */
+.cs-label{
+  font-size:.7rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--terra);margin-bottom:2.5rem;display:block;
+}
+.cs-title{
+  font-family:var(--serif);font-weight:300;font-style:italic;
+  font-size:clamp(4rem,12vw,11rem);
+  line-height:.88;letter-spacing:-.045em;
+  color:var(--ink);margin-bottom:3rem;
+}
+.cs-title em{
+  display:block;font-style:normal;
+  color:var(--terra);
+  font-size:.55em;letter-spacing:-.02em;
+  margin-top:.2em;
+}
+.cs-text{
+  font-size:1rem;color:var(--muted);line-height:1.72;
+  max-width:38ch;margin:0 auto 3.5rem;font-weight:300;
+  font-family:var(--serif);font-style:italic;font-size:1.2rem;
+}
+.cs-divider{
+  width:48px;height:1px;background:var(--terra);opacity:.5;
+  margin:0 auto 3.5rem;
+}
+
+/* Formulari avís */
+.cs-form{
+  display:flex;gap:0;max-width:420px;width:100%;margin:0 auto 4rem;
+  border-bottom:1px solid var(--line);
+}
+.cs-form input{
+  flex:1;background:transparent;border:none;outline:none;
+  font-family:var(--sans);font-size:.9rem;color:var(--ink);
+  padding:.6rem 0;font-weight:300;
+}
+.cs-form input::placeholder{color:var(--muted)}
+.cs-form button{
+  background:none;border:none;cursor:pointer;
+  font-family:var(--serif);font-style:italic;font-size:.95rem;
+  color:var(--terra);padding:.6rem 0 .6rem 1rem;white-space:nowrap;
+  transition:color var(--t);
+}
+.cs-form button:hover{color:var(--ink)}
+.cs-confirm{
+  font-size:.82rem;color:var(--olive);font-style:italic;
+  font-family:var(--serif);margin-top:.6rem;
+  display:none;
+}
+.cs-confirm.show{display:block}
+
+.cs-back{
+  font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:1px;
+  transition:color var(--t),border-color var(--t);
+}
+.cs-back:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ── FOOTER ── */
+.footer-min{
+  padding:1.5rem var(--g);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+  font-size:.72rem;color:rgba(31,28,24,.3);
+  border-top:1px solid var(--line-s);
+}
+.footer-legal{display:flex;gap:1.4rem}
+.footer-legal a{color:rgba(31,28,24,.3);transition:color var(--t)}
+.footer-legal a:hover{color:var(--muted)}
+
+@media(max-width:640px){
+  .nav-links,.nav-cta{display:none}
+  .nav-toggle{display:flex}
+  .nav-links.open{
+    display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;
+    position:absolute;top:100%;left:0;right:0;
+    background:var(--paper);border-bottom:1px solid var(--line);
+    padding:1.4rem var(--g);
+  }
+  .cs-title{font-size:clamp(3.5rem,16vw,6rem)}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<header class="nav" id="nav">
+  <a href="index.html" aria-label="Efecto Floral — inici">
+    <img src="assets/logo efecto.png" alt="Efecto Floral" class="brand-logo">
+  </a>
+  <nav class="nav-links" id="nav-links" aria-label="Principal">
+    <a href="index.html#historia">L'estudi</a>
+    <a href="botiga.html" class="active">Botiga</a>
+    <a href="index.html#serveis">Events</a>
+    <a href="index.html#serveis">Tallers</a>
+    <a href="index.html#galeria">Galeria</a>
+    <a href="index.html#contacte">Contacte</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:.8rem">
+    <a href="index.html#contacte" class="nav-cta">Sol·licitar pressupost</a>
+  </div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ─── MAIN ─── -->
+<main>
+  <span class="cs-label">Botiga en línia</span>
+
+  <h1 class="cs-title">
+    Dissenyant
+    <em>la botiga.</em>
+  </h1>
+
+  <p class="cs-text">
+    Estem preparant alguna cosa especial — rams per encàrrec, composicions de temporada i molt més. Aviat podràs demanar directament des d'aquí.
+  </p>
+
+  <div class="cs-divider"></div>
+
+  <form class="cs-form" id="notify-form" novalidate>
+    <input type="email" id="notify-email" placeholder="El teu correu per avisar-te" required>
+    <button type="submit">Avisa'm →</button>
+  </form>
+  <p class="cs-confirm" id="notify-confirm">Perfecte — t'avisarem quan la botiga sigui oberta ✦</p>
+
+  <a href="index.html" class="cs-back">← Tornar a l'inici</a>
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer-min">
+  <span>© 2026 Efecto Floral · Barcelona</span>
+  <div class="footer-legal">
+    <a href="#">Avís legal</a>
+    <a href="#">Privacitat</a>
+  </div>
+</footer>
+
+<script>
+// Nav mobile
+const nt=document.getElementById('nav-toggle');
+const nl=document.getElementById('nav-links');
+nt&&nt.addEventListener('click',()=>{
+  const o=nl.classList.toggle('open');
+  nt.setAttribute('aria-expanded',o);
+});
+
+// Form avís
+const form=document.getElementById('notify-form');
+const confirm=document.getElementById('notify-confirm');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const email=document.getElementById('notify-email').value.trim();
+  if(!email)return;
+  confirm.classList.add('show');
+  form.style.opacity='.4';
+  form.style.pointerEvents='none';
+});
+</script>
+</body>
+</html>
